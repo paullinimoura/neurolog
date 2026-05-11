@@ -265,7 +265,10 @@ body{max-width:480px;margin:0 auto;position:relative;
 
 <!-- HISTORY -->
 <div class="page" id="pageHistory">
-  <div class="page-title">Histórico</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px">
+    <div class="page-title" style="padding:0">Histórico</div>
+    <button class="btn-add-checkin" onclick="openCheckinForm()">＋ check-in</button>
+  </div>
   <div id="historyContent"></div>
 </div>
 
