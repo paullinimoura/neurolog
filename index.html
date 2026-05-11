@@ -307,16 +307,23 @@ const avg      = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
 function loadCache(){ try{ return JSON.parse(localStorage.getItem(CACHE_KEY)||"{}"); }catch{ return {}; } }
 function saveCache(d){ try{ localStorage.setItem(CACHE_KEY,JSON.stringify(d)); }catch{} }
 
-async function driveGet(params){
-  const url = SCRIPT_URL + "?" + params + "&t=" + Date.now();
-  const r = await fetch(url, { redirect:"follow", cache:"no-store" });
-  const text = await r.text();
-  try { return JSON.parse(text); } catch { return null; }
+function jsonp(url, timeout=10000){
+  return new Promise((resolve,reject)=>{
+    const cb = "_cb"+Date.now();
+    let done = false;
+    const timer = setTimeout(()=>{ if(!done){ done=true; cleanup(); reject(new Error("timeout")); }}, timeout);
+    window[cb] = data => { if(!done){ done=true; cleanup(); resolve(data); }};
+    const s = document.createElement("script");
+    s.src = url + "&cb=" + cb;
+    s.onerror = () => { if(!done){ done=true; cleanup(); reject(new Error("script error")); }};
+    function cleanup(){ clearTimeout(timer); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    document.head.appendChild(s);
+  });
 }
 
 async function loadFromDrive(){
   try{
-    const j = await driveGet("action=load");
+    const j = await jsonp(SCRIPT_URL+"?action=load&t="+Date.now());
     return j && j.status==="ok" ? j.data : null;
   }catch(e){ console.error("load:",e); return null; }
 }
@@ -324,7 +331,7 @@ async function loadFromDrive(){
 async function saveToDrive(d){
   try{
     const encoded = encodeURIComponent(JSON.stringify(d));
-    const j = await driveGet("action=save&d=" + encoded);
+    const j = await jsonp(SCRIPT_URL+"?action=save&d="+encoded+"&t="+Date.now());
     return !!(j && j.status==="ok");
   }catch(e){ console.error("save:",e); return false; }
 }
@@ -337,15 +344,23 @@ function setBadge(s){
 }
 
 // ── Init ───────────────────────────────────────────────────────────────────────
-async function init(){
+function init(){
+  // Render immediately from cache — never block on Drive
   days = loadCache();
-  renderHome();
   buildUI();
-  setBadge("saving");
-  const driveData = await loadFromDrive();
-  if(driveData){ days=driveData; saveCache(days); setBadge("synced"); showToast("☁ Dados carregados","#60a5fa"); }
-  else setBadge(Object.keys(days).length ? "local" : "local");
   renderHome();
+  setBadge("local");
+
+  // Sync with Drive in background
+  loadFromDrive().then(driveData => {
+    if(driveData){
+      days = driveData;
+      saveCache(days);
+      setBadge("synced");
+      renderHome();
+      showToast("☁ Dados carregados","#60a5fa");
+    }
+  }).catch(() => setBadge("local"));
 }
 
 // ── Build UI ───────────────────────────────────────────────────────────────────
