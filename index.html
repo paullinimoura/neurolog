@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="neuro·log">
@@ -17,9 +17,13 @@
   --text:#e6e6f0;--muted:#7a7a90;
   --purple:#a78bfa;--orange:#fb923c;--green:#34d399;
   --yellow:#facc15;--blue:#60a5fa;--red:#f87171;
+  --nav-h:70px;
 }
-html,body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sans-serif;-webkit-font-smoothing:antialiased;height:100%}
-body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
+html,body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sans-serif;-webkit-font-smoothing:antialiased}
+body{max-width:480px;margin:0 auto;position:relative;
+  /* safe area for iPhone home indicator */
+  padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);
+}
 
 .header{padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;background:rgba(12,12,20,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
 .header-brand{display:flex;flex-direction:column}
@@ -27,28 +31,34 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .header-sub{font-size:10px;color:var(--muted);letter-spacing:.5px;margin-top:2px}
 .header-right{display:flex;align-items:center;gap:8px}
 .header-mood{font-size:24px}
-.status-badge{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500;transition:all .3s}
+.status-badge{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500}
 .status-badge.synced{border:1px solid rgba(52,211,153,.3);color:#34d399;background:rgba(52,211,153,.08)}
-.status-badge.saving{border:1px solid rgba(167,139,250,.3);color:var(--purple);background:rgba(167,139,250,.08)}
-.status-badge.error{border:1px solid rgba(248,113,113,.3);color:#f87171;background:rgba(248,113,113,.08)}
+.status-badge.saving{border:1px solid rgba(167,139,250,.3);color:var(--purple);background:rgba(167,139,250,.08);animation:pulse 1s ease infinite}
 .status-badge.local{border:1px solid rgba(250,204,21,.3);color:#facc15;background:rgba(250,204,21,.08)}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
 
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:20}
-.nav-btn{flex:1;background:none;border:none;color:var(--muted);padding:10px 4px 8px;font-size:9px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .15s;text-transform:uppercase;letter-spacing:.5px;-webkit-tap-highlight-color:transparent}
+/* NAV — fixed, respects safe area */
+.nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:480px;
+  background:var(--bg2);border-top:1px solid var(--border);
+  display:flex;z-index:20;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.nav-btn{flex:1;background:none;border:none;color:var(--muted);padding:10px 4px 8px;font-size:9px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;text-transform:uppercase;letter-spacing:.5px;-webkit-tap-highlight-color:transparent;transition:color .15s}
 .nav-btn.active{color:var(--purple)}
 .nav-icon{font-size:18px}
 
-.btn-primary{background:var(--purple);color:#0c0c14;border:none;border-radius:14px;padding:15px 20px;width:100%;font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity .15s,transform .1s}
-.btn-primary:active{transform:scale(.98);opacity:.88}
+.btn-primary{background:var(--purple);color:#0c0c14;border:none;border-radius:14px;padding:15px 20px;width:100%;font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn-primary:active{opacity:.85}
 .btn-secondary{background:var(--bg2);color:var(--muted);border:1px solid var(--border);border-radius:14px;padding:13px 16px;font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;-webkit-tap-highlight-color:transparent;width:100%}
-.btn-secondary:active{border-color:var(--purple);color:var(--text)}
 .btn-xs{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 10px;font-size:11px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .btn-add-checkin{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);color:var(--purple);border-radius:10px;padding:6px 12px;font-size:12px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;font-weight:500;-webkit-tap-highlight-color:transparent}
 
-.page{display:none;animation:fadeIn .2s ease}
+.page{display:none}
 .page.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
+/* HOME */
 .home{padding:20px}
 .hero-card{background:linear-gradient(135deg,#1a1030 0%,#13131f 60%,#0f1a1a 100%);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
 .hero-card::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(167,139,250,.1) 0%,transparent 70%);pointer-events:none}
@@ -60,20 +70,22 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .home-actions{display:flex;flex-direction:column;gap:10px}
 .home-secondary{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
+/* CHECKIN FORM */
 .checkin-form{padding:16px}
 .cf-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .cf-time-label{font-size:13px;color:var(--muted);font-weight:500}
 .cf-time-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:6px 10px;font-size:15px;font-weight:600;font-family:'Bricolage Grotesque',sans-serif}
-.cf-actions{display:flex;gap:10px;margin-top:16px}
+/* Extra bottom padding so save button clears the nav */
+.cf-actions{display:flex;gap:10px;margin-top:16px;margin-bottom:8px}
 
 .core-section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px;display:flex;flex-direction:column;gap:16px}
 .tri-field{display:flex;flex-direction:column;gap:6px}
 .tri-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
 .tri-group{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.tri-btn{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.tri-btn{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;-webkit-tap-highlight-color:transparent;transition:all .15s}
 .tri-btn.active{border-color:var(--purple);background:rgba(167,139,250,.15)}
 .tri-emoji{font-size:24px;line-height:1}
-.tri-text{font-size:11px;color:var(--muted);font-family:'Bricolage Grotesque',sans-serif}
+.tri-text{font-size:11px;color:var(--muted)}
 .tri-btn.active .tri-text{color:var(--purple)}
 
 .opt-sections{display:flex;flex-direction:column;gap:6px}
@@ -87,13 +99,13 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .med-row:last-child{border-bottom:none;padding-bottom:0}
 .med-name{font-size:13px;font-weight:600;min-width:58px}
 .med-controls{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap}
-.med-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 10px;font-size:13px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.med-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 10px;font-size:13px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .med-btn.taken{background:rgba(52,211,153,.12);border-color:var(--green);color:var(--green)}
 .med-btn.skipped{background:rgba(248,113,113,.1);border-color:var(--red);color:var(--red)}
 .med-time{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:5px 8px;font-size:12px;font-family:'Bricolage Grotesque',sans-serif;width:88px}
 
 .toggle-group{display:flex;gap:8px;flex-wrap:wrap}
-.toggle-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:8px 12px;font-size:13px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;flex:1;justify-content:center;-webkit-tap-highlight-color:transparent}
+.toggle-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:8px 12px;font-size:13px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;flex:1;justify-content:center;-webkit-tap-highlight-color:transparent}
 .toggle-btn.active{background:rgba(167,139,250,.12);border-color:var(--purple);color:var(--purple)}
 .toggle-btn.active.green{background:rgba(52,211,153,.1);border-color:var(--green);color:var(--green)}
 .toggle-btn.active.red{background:rgba(248,113,113,.1);border-color:var(--red);color:var(--red)}
@@ -104,6 +116,7 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .textarea{resize:vertical;min-height:80px}
 .row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
+/* HISTORY */
 .page-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--text);padding:16px 20px 4px}
 .history-list{padding:12px 16px;display:flex;flex-direction:column;gap:6px}
 .history-day-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -127,6 +140,7 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .opt-chip{font-size:11px;padding:3px 8px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:var(--bg3)}
 .opt-notes{font-size:12px;color:var(--muted);font-style:italic;line-height:1.5;margin-top:4px;width:100%}
 
+/* CHARTS */
 .charts-area{padding:12px 16px}
 .chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px}
 .chart-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
@@ -138,25 +152,21 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .bar-row{display:flex;align-items:center;gap:8px}
 .bar-label{font-size:12px;color:var(--muted);min-width:52px;text-align:right}
 .bar-track{flex:1;background:var(--bg3);border-radius:4px;height:8px;overflow:hidden}
-.bar-fill{height:100%;border-radius:4px;transition:width .5s ease}
+.bar-fill{height:100%;border-radius:4px}
 .bar-pct{font-size:11px;color:var(--muted);min-width:32px}
-.mood-timeline{display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto}
+.mood-timeline{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto}
 .timeline-row{display:flex;align-items:center;gap:8px}
 .tl-date{font-size:10px;color:var(--muted);min-width:44px}
-.tl-dots{display:flex;gap:4px;align-items:center}
+.tl-dots{display:flex;gap:4px}
 .tl-dot{font-size:16px}
 
 .empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
 .empty-big{font-size:48px;margin-bottom:12px}
 .empty-state p{font-size:14px;line-height:1.7}
 
-.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:100;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity .3s}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:100;pointer-events:none;white-space:nowrap;opacity:0}
 .toast.show{animation:toastAnim 3s ease forwards}
-@keyframes toastAnim{0%{opacity:0;transform:translateX(-50%) translateY(-8px)}15%,80%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(0)}}
-
-.loading-screen{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
-.loading-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:28px;color:var(--purple)}
-.loading-msg{font-size:13px;color:var(--muted)}
+@keyframes toastAnim{0%{opacity:0;transform:translateX(-50%) translateY(-8px)}15%,80%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0}}
 </style>
 </head>
 <body>
@@ -245,7 +255,7 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
       </div>
     </div>
     <div class="cf-actions">
-      <button class="btn-secondary" onclick="showPage('home')">Cancelar</button>
+      <button class="btn-secondary" onclick="showPage('home')" style="flex:0 0 auto;width:auto;padding:15px 20px">Cancelar</button>
       <button class="btn-primary" onclick="saveCheckin()">Salvar check-in</button>
     </div>
   </div>
@@ -271,18 +281,10 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 </nav>
 
 <script>
-// ── Config ─────────────────────────────────────────────────────────────────────
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp5AQo6ilfCk_N9yH9KFzTTIp492BVfnDhGA3TV6vwK-Yrcde_dXvAPVaR32Ohvrkn/exec";
-const CACHE_KEY  = "neurolog_days_v2";
+const CACHE_KEY  = "neurolog_v3";
 
-// ── Data ───────────────────────────────────────────────────────────────────────
-const MEDS = [
-  {key:"puran",  label:"Puran",   color:"#60a5fa"},
-  {key:"rexulti",label:"Rexulti", color:"#c084fc"},
-  {key:"deller", label:"Deller",  color:"#34d399"},
-  {key:"glifage",label:"Glifage", color:"#facc15"},
-  {key:"zetron", label:"Zetron",  color:"#fb923c"},
-];
+const MEDS      = [{key:"puran",label:"Puran",color:"#60a5fa"},{key:"rexulti",label:"Rexulti",color:"#c084fc"},{key:"deller",label:"Deller",color:"#34d399"},{key:"glifage",label:"Glifage",color:"#facc15"},{key:"zetron",label:"Zetron",color:"#fb923c"}];
 const MOOD      = [{v:1,e:"😔",l:"Baixo"},{v:5,e:"😐",l:"Neutro"},{v:9,e:"😄",l:"Bem"}];
 const AGITATION = [{v:1,e:"🧘",l:"Calma"},{v:5,e:"⚡",l:"Inquieta"},{v:9,e:"🌪️",l:"Agitada"}];
 const ENERGY    = [{v:1,e:"🪫",l:"Baixa"},{v:5,e:"😐",l:"Média"},{v:9,e:"🔋",l:"Alta"}];
@@ -291,9 +293,8 @@ const FOCUS     = [{v:1,e:"🌫️",l:"Baixo"},{v:5,e:"🙂",l:"Médio"},{v:9,e:
 const SLEEP_OPT = [{v:"noite_inteira",e:"🌙",l:"Noite inteira"},{v:"acordou_voltou",e:"🌗",l:"Voltei a dormir"},{v:"acordou_ficou",e:"☀️",l:"Fiquei acordada"}];
 
 let days = {};
-let editingCheckin = null;
-let editingDate    = null;
-let currentForm    = {};
+let editingDate = null;
+let currentForm = {};
 
 const todayKey = () => new Date().toISOString().split("T")[0];
 const getOpt   = (opts,v) => opts.find(o=>o.v===v);
@@ -303,103 +304,92 @@ const avg      = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
 function loadCache(){ try{ return JSON.parse(localStorage.getItem(CACHE_KEY)||"{}"); }catch{ return {}; } }
 function saveCache(d){ try{ localStorage.setItem(CACHE_KEY,JSON.stringify(d)); }catch{} }
 
+// JSONP — avoids CORS entirely
+function jsonpFetch(url){
+  return new Promise((resolve,reject)=>{
+    const cb = "cb_"+Date.now();
+    window[cb] = data => { delete window[cb]; document.head.removeChild(s); resolve(data); };
+    const s = document.createElement("script");
+    s.src = url + "&cb=" + cb;
+    s.onerror = () => { delete window[cb]; document.head.removeChild(s); reject(new Error("JSONP failed")); };
+    document.head.appendChild(s);
+  });
+}
+
 async function loadFromDrive(){
   try{
-    const r = await fetch(SCRIPT_URL+"?action=load&t="+Date.now());
-    const j = await r.json();
-    return j.status==="ok" ? j.data : null;
-  }catch{ return null; }
+    const r = await jsonpFetch(SCRIPT_URL+"?action=load&t="+Date.now());
+    return r.status==="ok" ? r.data : null;
+  }catch(e){ console.error("load error",e); return null; }
 }
 
 async function saveToDrive(d){
   try{
-    const r = await fetch(SCRIPT_URL, {
-      method:"POST",
-      headers:{"Content-Type":"text/plain"},
-      body: JSON.stringify({action:"save",data:d})
-    });
-    const j = await r.json();
-    return j.status==="ok";
-  }catch{ return false; }
+    const encoded = encodeURIComponent(JSON.stringify(d));
+    const r = await jsonpFetch(SCRIPT_URL+"?action=save&d="+encoded+"&t="+Date.now());
+    return r.status==="ok";
+  }catch(e){ console.error("save error",e); return false; }
 }
 
 function setStatus(s){
   const b=document.getElementById("statusBadge");
-  const map={synced:["☁ Drive","synced"],saving:["⟳ salvando","saving"],error:["⚠ erro","error"],local:["⬤ local","local"]};
-  const [text,cls]=map[s]||map.local;
-  b.textContent=text; b.className="status-badge "+cls;
+  if(s==="synced"){ b.textContent="☁ Drive"; b.className="status-badge synced"; }
+  else if(s==="saving"){ b.textContent="⟳ salvando"; b.className="status-badge saving"; }
+  else{ b.textContent="⬤ local"; b.className="status-badge local"; }
 }
 
 // ── Init ───────────────────────────────────────────────────────────────────────
 async function init(){
   days = loadCache();
   renderHome();
-  buildTriPickers();
-  buildMedRows();
-  buildSleepBtns();
-
+  buildUI();
   setStatus("saving");
   const driveData = await loadFromDrive();
-  if(driveData){
-    days = driveData;
-    saveCache(days);
-    setStatus("synced");
-    showToast("☁ Dados carregados do Drive","#60a5fa");
-  } else {
-    setStatus("local");
-  }
+  if(driveData){ days=driveData; saveCache(days); setStatus("synced"); showToast("☁ Dados carregados","#60a5fa"); }
+  else setStatus(Object.keys(days).length?"local":"local");
   renderHome();
 }
 
-// ── Tri Pickers ────────────────────────────────────────────────────────────────
-function buildTriPicker(id, opts, field){
-  document.getElementById(id).innerHTML = opts.map(o=>`
-    <button class="tri-btn" data-val="${o.v}" onclick="setTri('${field}',${o.v},'${id}',this)">
-      <span class="tri-emoji">${o.e}</span>
-      <span class="tri-text">${o.l}</span>
-    </button>`).join("");
-}
-
-function buildTriPickers(){
+// ── Build UI ───────────────────────────────────────────────────────────────────
+function buildUI(){
   buildTriPicker("triMood",MOOD,"mood");
   buildTriPicker("triAgitation",AGITATION,"agitation");
   buildTriPicker("triEnergy",ENERGY,"energy");
   buildTriPicker("triFood",FOOD,"food");
   buildTriPicker("triFocus",FOCUS,"focus");
-}
-
-function setTri(field, val, containerId, btn){
-  if(currentForm[field]===val){ currentForm[field]=null; btn.classList.remove("active"); return; }
-  currentForm[field]=val;
-  document.getElementById(containerId).querySelectorAll(".tri-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-}
-
-function buildMedRows(){
   document.getElementById("medsRows").innerHTML = MEDS.map(m=>`
     <div class="med-row">
       <div class="med-name" style="color:${m.color}">${m.label}</div>
       <div class="med-controls">
-        <button class="med-btn" id="medTaken_${m.key}" onclick="setMed('${m.key}',true)">✓</button>
-        <button class="med-btn" id="medSkip_${m.key}"  onclick="setMed('${m.key}',false)">✗</button>
-        <input type="time" class="med-time" id="medTime_${m.key}">
+        <button class="med-btn" id="mt_${m.key}" onclick="setMed('${m.key}',true)">✓</button>
+        <button class="med-btn" id="ms_${m.key}" onclick="setMed('${m.key}',false)">✗</button>
+        <input type="time" class="med-time" id="mtime_${m.key}">
       </div>
     </div>`).join("");
-}
-
-function setMed(key, val){
-  const cur = currentForm.meds[key].taken;
-  currentForm.meds[key].taken = cur===val ? null : val;
-  document.getElementById("medTaken_"+key).className="med-btn"+(currentForm.meds[key].taken===true?" taken":"");
-  document.getElementById("medSkip_"+key).className="med-btn"+(currentForm.meds[key].taken===false?" skipped":"");
-}
-
-function buildSleepBtns(){
   document.getElementById("sleepBtns").innerHTML = SLEEP_OPT.map(o=>`
     <button class="toggle-btn" onclick="setSleep('${o.v}',this)">${o.e} ${o.l}</button>`).join("");
 }
 
-function setSleep(val, btn){
+function buildTriPicker(id,opts,field){
+  document.getElementById(id).innerHTML = opts.map(o=>`
+    <button class="tri-btn" data-val="${o.v}" onclick="setTri('${field}',${o.v},'${id}',this)">
+      <span class="tri-emoji">${o.e}</span><span class="tri-text">${o.l}</span>
+    </button>`).join("");
+}
+
+function setTri(field,val,cid,btn){
+  currentForm[field] = currentForm[field]===val ? null : val;
+  document.getElementById(cid).querySelectorAll(".tri-btn").forEach(b=>b.classList.remove("active"));
+  if(currentForm[field]!==null) btn.classList.add("active");
+}
+
+function setMed(key,val){
+  currentForm.meds[key].taken = currentForm.meds[key].taken===val ? null : val;
+  document.getElementById("mt_"+key).className="med-btn"+(currentForm.meds[key].taken===true?" taken":"");
+  document.getElementById("ms_"+key).className="med-btn"+(currentForm.meds[key].taken===false?" skipped":"");
+}
+
+function setSleep(val,btn){
   currentForm.sleep_quality = currentForm.sleep_quality===val ? null : val;
   document.querySelectorAll("#sleepBtns .toggle-btn").forEach(b=>b.classList.remove("active"));
   if(currentForm.sleep_quality) btn.classList.add("active");
@@ -414,25 +404,20 @@ function setExercise(val){
 
 // ── Checkin Form ───────────────────────────────────────────────────────────────
 function openCheckinForm(date, checkin){
-  editingDate     = date || todayKey();
-  editingCheckin  = checkin || null;
-  currentForm = checkin ? JSON.parse(JSON.stringify(checkin)) : {
-    id: Date.now(),
-    time: new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),
-    mood:null, agitation:null, energy:null,
-    sleep_quality:null, sleep_wake_time:"", sleep_hours:"",
-    meds: Object.fromEntries(MEDS.map(m=>[m.key,{taken:null,time:""}])),
-    food:null, exercised:null, exercise_notes:"", focus:null, notes:""
+  editingDate   = date || todayKey();
+  currentForm   = checkin ? JSON.parse(JSON.stringify(checkin)) : {
+    id:Date.now(),
+    time:new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),
+    mood:null,agitation:null,energy:null,
+    sleep_quality:null,sleep_wake_time:"",sleep_hours:"",
+    meds:Object.fromEntries(MEDS.map(m=>[m.key,{taken:null,time:""}])),
+    food:null,exercised:null,exercise_notes:"",focus:null,notes:""
   };
 
-  document.getElementById("cfTime").value = currentForm.time;
+  document.getElementById("cfTime").value=currentForm.time;
+  ["triMood","triAgitation","triEnergy","triFood","triFocus"].forEach(id=>
+    document.getElementById(id).querySelectorAll(".tri-btn").forEach(b=>b.classList.remove("active")));
 
-  // Reset all pickers
-  ["triMood","triAgitation","triEnergy","triFood","triFocus"].forEach(id=>{
-    document.getElementById(id).querySelectorAll(".tri-btn").forEach(b=>b.classList.remove("active"));
-  });
-
-  // Restore tri values
   const rTri=(id,field)=>{
     if(currentForm[field]!=null)
       document.getElementById(id).querySelectorAll(".tri-btn").forEach(b=>{
@@ -442,36 +427,32 @@ function openCheckinForm(date, checkin){
   rTri("triMood","mood"); rTri("triAgitation","agitation"); rTri("triEnergy","energy");
   rTri("triFood","food"); rTri("triFocus","focus");
 
-  // Meds
   MEDS.forEach(m=>{
     const med=currentForm.meds[m.key]||{taken:null,time:""};
-    document.getElementById("medTaken_"+m.key).className="med-btn"+(med.taken===true?" taken":"");
-    document.getElementById("medSkip_"+m.key).className="med-btn"+(med.taken===false?" skipped":"");
-    document.getElementById("medTime_"+m.key).value=med.time||"";
+    document.getElementById("mt_"+m.key).className="med-btn"+(med.taken===true?" taken":"");
+    document.getElementById("ms_"+m.key).className="med-btn"+(med.taken===false?" skipped":"");
+    document.getElementById("mtime_"+m.key).value=med.time||"";
   });
 
-  // Sleep
   document.querySelectorAll("#sleepBtns .toggle-btn").forEach((b,i)=>{
-    b.classList.toggle("active", SLEEP_OPT[i]?.v===currentForm.sleep_quality);
+    b.classList.toggle("active",SLEEP_OPT[i]?.v===currentForm.sleep_quality);
   });
   document.getElementById("sleepWake").value=currentForm.sleep_wake_time||"";
   document.getElementById("sleepHours").value=currentForm.sleep_hours||"";
-
-  // Exercise
   document.getElementById("exYes").className="toggle-btn"+(currentForm.exercised===true?" active green":"");
   document.getElementById("exNo").className="toggle-btn"+(currentForm.exercised===false?" active red":"");
   document.getElementById("exNotes").style.display=currentForm.exercised===true?"block":"none";
   document.getElementById("exNotes").value=currentForm.exercise_notes||"";
   document.getElementById("cfNotes").value=currentForm.notes||"";
-
-  // Close opt sections
   document.querySelectorAll(".opt-body").forEach(b=>b.style.display="none");
   document.querySelectorAll(".opt-header").forEach(h=>{ h.classList.remove("open"); h.querySelector("span:last-child").textContent="▼"; });
 
   showPage("checkin");
+  // Scroll to top of form
+  window.scrollTo(0,0);
 }
 
-function toggleOpt(id, btn){
+function toggleOpt(id,btn){
   const body=document.getElementById("opt"+id);
   const open=body.style.display==="none";
   body.style.display=open?"block":"none";
@@ -480,67 +461,59 @@ function toggleOpt(id, btn){
 }
 
 async function saveCheckin(){
-  currentForm.time              = document.getElementById("cfTime").value;
-  currentForm.sleep_wake_time   = document.getElementById("sleepWake").value;
-  currentForm.sleep_hours       = document.getElementById("sleepHours").value;
-  currentForm.exercise_notes    = document.getElementById("exNotes").value;
-  currentForm.notes             = document.getElementById("cfNotes").value;
-  MEDS.forEach(m=>{ currentForm.meds[m.key].time=document.getElementById("medTime_"+m.key).value; });
+  currentForm.time           = document.getElementById("cfTime").value;
+  currentForm.sleep_wake_time= document.getElementById("sleepWake").value;
+  currentForm.sleep_hours    = document.getElementById("sleepHours").value;
+  currentForm.exercise_notes = document.getElementById("exNotes").value;
+  currentForm.notes          = document.getElementById("cfNotes").value;
+  MEDS.forEach(m=>{ currentForm.meds[m.key].time=document.getElementById("mtime_"+m.key).value; });
 
   if(!currentForm.mood && !currentForm.agitation && !currentForm.energy){
-    showToast("Selecione pelo menos humor, agitação ou energia","#f87171"); return;
+    showToast("Selecione pelo menos um campo","#f87171"); return;
   }
 
-  const date = editingDate || todayKey();
-  const day  = days[date] || {date, checkins:[]};
-  const idx  = day.checkins.findIndex(c=>c.id===currentForm.id);
-  const updated = idx>=0
+  const date=editingDate||todayKey();
+  const day=days[date]||{date,checkins:[]};
+  const idx=day.checkins.findIndex(c=>c.id===currentForm.id);
+  const checkins=idx>=0
     ? day.checkins.map((c,i)=>i===idx?{...currentForm}:c)
-    : [...day.checkins, {...currentForm}];
-  days = {...days, [date]:{...day, checkins:updated}};
-
+    : [...day.checkins,{...currentForm}];
+  days={...days,[date]:{...day,checkins}};
   saveCache(days);
   renderHome();
   showPage("home");
   showToast("✓ Salvo!","#34d399");
 
   setStatus("saving");
-  const ok = await saveToDrive(days);
+  const ok=await saveToDrive(days);
   setStatus(ok?"synced":"local");
   if(ok) showToast("☁ Sincronizado com o Drive","#60a5fa");
-  else   showToast("⚠ Drive indisponível, salvo localmente","#facc15");
+  else   showToast("⚠ Drive indisponível","#facc15");
 }
 
-async function deleteCheckin(date, id){
+async function deleteCheckin(date,id){
   if(!confirm("Apagar este check-in?")) return;
   const day=days[date]; if(!day) return;
   const checkins=day.checkins.filter(c=>c.id!==id);
-  if(checkins.length===0){ days={...days}; delete days[date]; }
+  if(checkins.length===0){days={...days};delete days[date];}
   else days={...days,[date]:{...day,checkins}};
-  saveCache(days);
-  renderHistory();
+  saveCache(days); renderHistory();
   setStatus("saving");
-  const ok=await saveToDrive(days);
-  setStatus(ok?"synced":"local");
+  setStatus(await saveToDrive(days)?"synced":"local");
 }
 
 // ── Render ─────────────────────────────────────────────────────────────────────
 function renderHome(){
-  const today=todayKey();
   document.getElementById("heroDate").textContent=
     new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"});
-  const todayDay=days[today];
-  const heroEl=document.getElementById("heroCheckins");
-  if(todayDay?.checkins?.length>0){
-    const sorted=[...todayDay.checkins].sort((a,b)=>a.time.localeCompare(b.time));
-    heroEl.innerHTML=`<div class="hero-checkins">${sorted.map(c=>{
-      const m=getOpt(MOOD,c.mood);
-      return `<span class="hero-dot">${c.time} ${m?m.e:"·"}</span>`;
-    }).join("")}</div>`;
-    const last=sorted[sorted.length-1];
-    document.getElementById("headerMood").textContent=getOpt(MOOD,last.mood)?.e||"";
+  const td=days[todayKey()];
+  const el=document.getElementById("heroCheckins");
+  if(td?.checkins?.length>0){
+    const s=[...td.checkins].sort((a,b)=>a.time.localeCompare(b.time));
+    el.innerHTML=`<div class="hero-checkins">${s.map(c=>`<span class="hero-dot">${c.time} ${getOpt(MOOD,c.mood)?.e||"·"}</span>`).join("")}</div>`;
+    document.getElementById("headerMood").textContent=getOpt(MOOD,s[s.length-1].mood)?.e||"";
   } else {
-    heroEl.innerHTML='<div class="hero-empty">Nenhum check-in ainda hoje</div>';
+    el.innerHTML='<div class="hero-empty">Nenhum check-in ainda hoje</div>';
     document.getElementById("headerMood").textContent="";
   }
   document.getElementById("homeSecondary").style.display=Object.keys(days).length>0?"grid":"none";
@@ -549,127 +522,103 @@ function renderHome(){
 function renderHistory(){
   const dates=Object.keys(days).sort((a,b)=>b.localeCompare(a));
   const el=document.getElementById("historyContent");
-  if(dates.length===0){
-    el.innerHTML='<div class="empty-state"><div class="empty-big">📭</div><p>Nenhum registro ainda.</p></div>';
-    return;
-  }
+  if(!dates.length){ el.innerHTML='<div class="empty-state"><div class="empty-big">📭</div><p>Nenhum registro ainda.</p></div>'; return; }
   el.innerHTML=`<div class="history-list">${dates.map(date=>{
-    const day=days[date];
-    const moods=day.checkins.map(c=>c.mood).filter(Boolean);
-    const avgM=avg(moods);
-    const nearestMood=avgM?getOpt(MOOD,[1,5,9].reduce((p,c)=>Math.abs(c-avgM)<Math.abs(p-avgM)?c:p)):null;
+    const day=days[date], moods=day.checkins.map(c=>c.mood).filter(Boolean), avgM=avg(moods);
+    const nm=avgM?getOpt(MOOD,[1,5,9].reduce((p,c)=>Math.abs(c-avgM)<Math.abs(p-avgM)?c:p)):null;
     const label=new Date(date+"T12:00").toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"short"});
-    return `
-      <div>
-        <div class="history-day-row" onclick="toggleHistoryDay('${date}',this)">
-          <div>
-            <div class="hd-date">${label}</div>
-            <div class="hd-summary">${day.checkins.length} check-in${day.checkins.length>1?"s":""}${avgM?` · humor ${avgM.toFixed(1)}`:""}</div>
-          </div>
-          <div class="hd-right">${nearestMood?.e||"·"}</div>
-        </div>
-        <div id="dayView_${date}" style="display:none"></div>
-      </div>`;
+    return `<div>
+      <div class="history-day-row" onclick="toggleHistoryDay('${date}',this)">
+        <div><div class="hd-date">${label}</div><div class="hd-summary">${day.checkins.length} check-in${day.checkins.length>1?"s":""}${avgM?` · humor ${avgM.toFixed(1)}`:""}</div></div>
+        <div class="hd-right">${nm?.e||"·"}</div>
+      </div>
+      <div id="dv_${date}" style="display:none"></div>
+    </div>`;
   }).join("")}</div>`;
 }
 
 function toggleHistoryDay(date,row){
-  const view=document.getElementById("dayView_"+date);
-  const open=view.style.display==="none";
-  view.style.display=open?"block":"none";
-  row.classList.toggle("selected",open);
+  const v=document.getElementById("dv_"+date), open=v.style.display==="none";
+  v.style.display=open?"block":"none"; row.classList.toggle("selected",open);
   if(open) renderDayView(date);
 }
 
 function renderDayView(date){
   const day=days[date];
-  const sleepMap={noite_inteira:"🌙 Noite inteira",acordou_voltou:"🌗 Voltei a dormir",acordou_ficou:"☀️ Fiquei acordada"};
+  const sm={noite_inteira:"🌙 Noite inteira",acordou_voltou:"🌗 Voltei a dormir",acordou_ficou:"☀️ Fiquei acordada"};
   const sorted=[...day.checkins].sort((a,b)=>a.time.localeCompare(b.time));
-  document.getElementById("dayView_"+date).innerHTML=`
+  document.getElementById("dv_"+date).innerHTML=`
     <div class="day-view">
       <div class="day-header">
         <div class="day-date-label">${new Date(date+"T12:00").toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"})}</div>
         <button class="btn-add-checkin" onclick="openCheckinForm('${date}')">＋ check-in</button>
       </div>
-      <div class="checkins-list">
-        ${sorted.map(c=>{
-          const mood=getOpt(MOOD,c.mood),agit=getOpt(AGITATION,c.agitation),energy=getOpt(ENERGY,c.energy);
-          const medsTaken=MEDS.filter(m=>c.meds[m.key]?.taken===true).map(m=>m.label).join(", ");
-          const hasOpt=c.sleep_quality||medsTaken||c.food!=null||c.exercised!=null||c.notes;
-          return `
-            <div class="checkin-card">
-              <div class="checkin-top">
-                <div class="checkin-time">${c.time}</div>
-                <div class="checkin-actions-row">
-                  <button class="btn-xs" onclick='openCheckinForm("${date}",${JSON.stringify(c).replace(/'/g,"&#39;")})'>editar</button>
-                  <button class="btn-xs" style="color:var(--red)" onclick="deleteCheckin('${date}',${c.id})">apagar</button>
-                </div>
-              </div>
-              <div class="checkin-core">
-                ${mood?`<span class="core-chip">${mood.e} ${mood.l}</span>`:""}
-                ${agit?`<span class="core-chip agit">${agit.e} ${agit.l}</span>`:""}
-                ${energy?`<span class="core-chip energy">${energy.e} ${energy.l}</span>`:""}
-              </div>
-              ${hasOpt?`<div class="checkin-optional">
-                ${c.sleep_quality?`<span class="opt-chip">${sleepMap[c.sleep_quality]}${c.sleep_hours?` · ${c.sleep_hours}h`:""}</span>`:""}
-                ${medsTaken?`<span class="opt-chip">💊 ${medsTaken}</span>`:""}
-                ${c.food!=null?`<span class="opt-chip">${getOpt(FOOD,c.food)?.e} ${getOpt(FOOD,c.food)?.l}</span>`:""}
-                ${c.exercised===true?`<span class="opt-chip">🏃 ${c.exercise_notes||"Exercitou"}</span>`:""}
-                ${c.notes?`<div class="opt-notes">"${c.notes}"</div>`:""}
-              </div>`:""}
-            </div>`;
-        }).join("")}
-      </div>
+      <div class="checkins-list">${sorted.map(c=>{
+        const mood=getOpt(MOOD,c.mood),agit=getOpt(AGITATION,c.agitation),en=getOpt(ENERGY,c.energy);
+        const mt=MEDS.filter(m=>c.meds[m.key]?.taken===true).map(m=>m.label).join(", ");
+        const hasOpt=c.sleep_quality||mt||c.food!=null||c.exercised!=null||c.notes;
+        return `<div class="checkin-card">
+          <div class="checkin-top">
+            <div class="checkin-time">${c.time}</div>
+            <div class="checkin-actions-row">
+              <button class="btn-xs" onclick='openCheckinForm("${date}",${JSON.stringify(c).replace(/"/g,"&quot;")})'>editar</button>
+              <button class="btn-xs" style="color:var(--red)" onclick="deleteCheckin('${date}',${c.id})">apagar</button>
+            </div>
+          </div>
+          <div class="checkin-core">
+            ${mood?`<span class="core-chip">${mood.e} ${mood.l}</span>`:""}
+            ${agit?`<span class="core-chip agit">${agit.e} ${agit.l}</span>`:""}
+            ${en?`<span class="core-chip energy">${en.e} ${en.l}</span>`:""}
+          </div>
+          ${hasOpt?`<div class="checkin-optional">
+            ${c.sleep_quality?`<span class="opt-chip">${sm[c.sleep_quality]}${c.sleep_hours?` · ${c.sleep_hours}h`:""}</span>`:""}
+            ${mt?`<span class="opt-chip">💊 ${mt}</span>`:""}
+            ${c.food!=null?`<span class="opt-chip">${getOpt(FOOD,c.food)?.e} ${getOpt(FOOD,c.food)?.l}</span>`:""}
+            ${c.exercised===true?`<span class="opt-chip">🏃 ${c.exercise_notes||"Exercitou"}</span>`:""}
+            ${c.notes?`<div class="opt-notes">"${c.notes}"</div>`:""}
+          </div>`:""}
+        </div>`;
+      }).join("")}</div>
     </div>`;
 }
 
 function renderCharts(){
   const allDays=Object.values(days).sort((a,b)=>a.date.localeCompare(b.date));
   const el=document.getElementById("chartsContent");
-  if(allDays.length<2){
-    el.innerHTML='<div class="empty-state"><div class="empty-big">📊</div><p>Registre pelo menos 2 dias<br>para ver os gráficos.</p></div>';
-    return;
-  }
+  if(allDays.length<2){ el.innerHTML='<div class="empty-state"><div class="empty-big">📊</div><p>Registre pelo menos 2 dias<br>para ver os gráficos.</p></div>'; return; }
   const allMoods=allDays.flatMap(d=>d.checkins.map(c=>c.mood).filter(Boolean));
-  const avgMoodGlobal=allMoods.length?(allMoods.reduce((a,b)=>a+b,0)/allMoods.length).toFixed(1):"–";
-  const totalCheckins=allDays.reduce((s,d)=>s+d.checkins.length,0);
-  const exerciseDays=allDays.filter(d=>d.checkins.some(c=>c.exercised===true)).length;
+  const avgMG=allMoods.length?(allMoods.reduce((a,b)=>a+b,0)/allMoods.length).toFixed(1):"–";
   const medsBar=MEDS.map(med=>{
     const all=allDays.flatMap(d=>d.checkins.filter(c=>c.meds[med.key]?.taken!==null&&c.meds[med.key]?.taken!==undefined));
-    const taken=all.filter(c=>c.meds[med.key]?.taken===true);
-    return{...med,rate:all.length?Math.round((taken.length/all.length)*100):0};
+    return{...med,rate:all.length?Math.round((all.filter(c=>c.meds[med.key]?.taken===true).length/all.length)*100):0};
   });
-  const recent=allDays.slice(-14);
-  el.innerHTML=`
-    <div class="charts-area">
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-value" style="color:#c084fc">${avgMoodGlobal}</div><div class="stat-label">humor médio</div></div>
-        <div class="stat-card"><div class="stat-value" style="color:#60a5fa">${totalCheckins}</div><div class="stat-label">check-ins</div></div>
-        <div class="stat-card"><div class="stat-value" style="color:#34d399">${exerciseDays}</div><div class="stat-label">dias c/ exercício</div></div>
-        <div class="stat-card"><div class="stat-value" style="color:#fb923c">${allDays.length}</div><div class="stat-label">dias registrados</div></div>
+  el.innerHTML=`<div class="charts-area">
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-value" style="color:#c084fc">${avgMG}</div><div class="stat-label">humor médio</div></div>
+      <div class="stat-card"><div class="stat-value" style="color:#60a5fa">${allDays.reduce((s,d)=>s+d.checkins.length,0)}</div><div class="stat-label">check-ins</div></div>
+      <div class="stat-card"><div class="stat-value" style="color:#34d399">${allDays.filter(d=>d.checkins.some(c=>c.exercised===true)).length}</div><div class="stat-label">dias c/ exercício</div></div>
+      <div class="stat-card"><div class="stat-value" style="color:#fb923c">${allDays.length}</div><div class="stat-label">dias registrados</div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Adesão por remédio</div>
+      <div class="bar-chart">${medsBar.map(m=>`
+        <div class="bar-row">
+          <div class="bar-label">${m.label}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${m.rate}%;background:${m.color}"></div></div>
+          <div class="bar-pct">${m.rate}%</div>
+        </div>`).join("")}
       </div>
-      <div class="chart-card">
-        <div class="chart-title">Adesão por remédio</div>
-        <div class="bar-chart">
-          ${medsBar.map(m=>`
-            <div class="bar-row">
-              <div class="bar-label">${m.label}</div>
-              <div class="bar-track"><div class="bar-fill" style="width:${m.rate}%;background:${m.color}"></div></div>
-              <div class="bar-pct">${m.rate}%</div>
-            </div>`).join("")}
-        </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Humor — últimas 2 semanas</div>
+      <div class="mood-timeline">${allDays.slice(-14).map(d=>`
+        <div class="timeline-row">
+          <div class="tl-date">${new Date(d.date+"T12:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</div>
+          <div class="tl-dots">${d.checkins.map(c=>`<span class="tl-dot">${getOpt(MOOD,c.mood)?.e||"·"}</span>`).join("")}</div>
+        </div>`).join("")}
       </div>
-      <div class="chart-card">
-        <div class="chart-title">Humor — últimas 2 semanas</div>
-        <div class="mood-timeline">
-          ${recent.map(d=>`
-            <div class="timeline-row">
-              <div class="tl-date">${new Date(d.date+"T12:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</div>
-              <div class="tl-dots">${d.checkins.map(c=>`<span class="tl-dot">${getOpt(MOOD,c.mood)?.e||"·"}</span>`).join("")}</div>
-            </div>`).join("")}
-        </div>
-      </div>
-    </div>`;
+    </div>
+  </div>`;
 }
 
 // ── Navigation ─────────────────────────────────────────────────────────────────
@@ -677,17 +626,17 @@ function showPage(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
   document.getElementById("page"+name[0].toUpperCase()+name.slice(1)).classList.add("active");
-  const navBtn=document.getElementById("nav"+name[0].toUpperCase()+name.slice(1));
-  if(navBtn) navBtn.classList.add("active");
+  const nb=document.getElementById("nav"+name[0].toUpperCase()+name.slice(1));
+  if(nb) nb.classList.add("active");
   if(name==="history") renderHistory();
   if(name==="charts")  renderCharts();
+  window.scrollTo(0,0);
 }
 
-function showToast(msg, bg="#34d399"){
+function showToast(msg,bg="#34d399"){
   const t=document.getElementById("toast");
   t.textContent=msg; t.style.background=bg; t.style.color="#0c0c14";
-  t.className="toast"; void t.offsetWidth;
-  t.className="toast show";
+  t.className="toast"; void t.offsetWidth; t.className="toast show";
 }
 
 init();
