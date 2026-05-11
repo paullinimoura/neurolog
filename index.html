@@ -44,6 +44,10 @@ body{max-width:480px;margin:0 auto;position:relative;
   background:var(--bg2);border-top:1px solid var(--border);
   display:flex;z-index:20;
   padding-bottom:env(safe-area-inset-bottom);
+  transition:transform .3s ease;
+}
+.nav.hidden{
+  transform:translateX(-50%) translateY(100%);
 }
 .nav-btn{flex:1;background:none;border:none;color:var(--muted);padding:10px 4px 8px;font-size:9px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;text-transform:uppercase;letter-spacing:.5px;-webkit-tap-highlight-color:transparent;transition:color .15s}
 .nav-btn.active{color:var(--purple)}
@@ -638,6 +642,19 @@ function showToast(msg,bg="#34d399"){
   t.textContent=msg; t.style.background=bg; t.style.color="#0c0c14";
   t.className="toast"; void t.offsetWidth; t.className="toast show";
 }
+
+// ── Hide nav on scroll ─────────────────────────────────────────────────────────
+let lastScroll = 0;
+window.addEventListener("scroll", () => {
+  const current = window.scrollY;
+  const nav = document.querySelector(".nav");
+  if (current > lastScroll && current > 60) {
+    nav.classList.add("hidden");
+  } else {
+    nav.classList.remove("hidden");
+  }
+  lastScroll = current;
+}, { passive: true });
 
 init();
 </script>
