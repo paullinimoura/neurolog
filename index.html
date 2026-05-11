@@ -21,7 +21,6 @@
 html,body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sans-serif;-webkit-font-smoothing:antialiased;height:100%}
 body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 
-/* HEADER */
 .header{padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;background:rgba(12,12,20,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
 .header-brand{display:flex;flex-direction:column}
 .header-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--purple);line-height:1}
@@ -34,26 +33,22 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .status-badge.error{border:1px solid rgba(248,113,113,.3);color:#f87171;background:rgba(248,113,113,.08)}
 .status-badge.local{border:1px solid rgba(250,204,21,.3);color:#facc15;background:rgba(250,204,21,.08)}
 
-/* NAV */
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:20}
 .nav-btn{flex:1;background:none;border:none;color:var(--muted);padding:10px 4px 8px;font-size:9px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .15s;text-transform:uppercase;letter-spacing:.5px;-webkit-tap-highlight-color:transparent}
 .nav-btn.active{color:var(--purple)}
 .nav-icon{font-size:18px}
 
-/* BUTTONS */
 .btn-primary{background:var(--purple);color:#0c0c14;border:none;border-radius:14px;padding:15px 20px;width:100%;font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity .15s,transform .1s}
 .btn-primary:active{transform:scale(.98);opacity:.88}
-.btn-secondary{background:var(--bg2);color:var(--muted);border:1px solid var(--border);border-radius:14px;padding:13px 16px;font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;-webkit-tap-highlight-color:transparent;transition:all .15s;width:100%}
+.btn-secondary{background:var(--bg2);color:var(--muted);border:1px solid var(--border);border-radius:14px;padding:13px 16px;font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;-webkit-tap-highlight-color:transparent;width:100%}
 .btn-secondary:active{border-color:var(--purple);color:var(--text)}
 .btn-xs{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 10px;font-size:11px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .btn-add-checkin{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);color:var(--purple);border-radius:10px;padding:6px 12px;font-size:12px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;font-weight:500;-webkit-tap-highlight-color:transparent}
 
-/* PAGES */
 .page{display:none;animation:fadeIn .2s ease}
 .page.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-/* HOME */
 .home{padding:20px}
 .hero-card{background:linear-gradient(135deg,#1a1030 0%,#13131f 60%,#0f1a1a 100%);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
 .hero-card::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(167,139,250,.1) 0%,transparent 70%);pointer-events:none}
@@ -65,32 +60,12 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .home-actions{display:flex;flex-direction:column;gap:10px}
 .home-secondary{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* SETUP */
-.setup-card{margin:20px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:24px}
-.setup-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--purple);margin-bottom:8px}
-.setup-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px}
-.setup-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
-.setup-step{display:flex;gap:10px;align-items:flex-start}
-.step-num{background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:var(--purple);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
-.step-text{font-size:13px;color:var(--text);line-height:1.6}
-.step-text a{color:var(--purple);text-decoration:none}
-.step-text code{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:12px;color:var(--yellow)}
-.setup-input-label{font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:500}
-.setup-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:12px 14px;font-size:13px;font-family:'Bricolage Grotesque',sans-serif;margin-bottom:10px}
-.setup-input:focus{outline:none;border-color:var(--purple)}
-.setup-input::placeholder{color:var(--muted)}
-.setup-test-result{font-size:12px;padding:8px 12px;border-radius:8px;margin-bottom:10px;display:none}
-.setup-test-result.ok{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:#34d399;display:block}
-.setup-test-result.fail{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;display:block}
-
-/* CHECKIN FORM */
 .checkin-form{padding:16px}
 .cf-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .cf-time-label{font-size:13px;color:var(--muted);font-weight:500}
 .cf-time-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:6px 10px;font-size:15px;font-weight:600;font-family:'Bricolage Grotesque',sans-serif}
 .cf-actions{display:flex;gap:10px;margin-top:16px}
 
-/* CORE */
 .core-section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px;display:flex;flex-direction:column;gap:16px}
 .tri-field{display:flex;flex-direction:column;gap:6px}
 .tri-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
@@ -101,7 +76,6 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .tri-text{font-size:11px;color:var(--muted);font-family:'Bricolage Grotesque',sans-serif}
 .tri-btn.active .tri-text{color:var(--purple)}
 
-/* OPTIONAL */
 .opt-sections{display:flex;flex-direction:column;gap:6px}
 .opt-section{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .opt-header{width:100%;background:none;border:none;color:var(--muted);padding:12px 14px;font-size:13px;font-weight:500;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;justify-content:space-between;align-items:center;-webkit-tap-highlight-color:transparent}
@@ -109,7 +83,6 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .opt-body{padding:12px 14px 14px;border-top:1px solid var(--border)}
 .opt-field-label{font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:500}
 
-/* MEDS */
 .med-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
 .med-row:last-child{border-bottom:none;padding-bottom:0}
 .med-name{font-size:13px;font-weight:600;min-width:58px}
@@ -119,7 +92,6 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .med-btn.skipped{background:rgba(248,113,113,.1);border-color:var(--red);color:var(--red)}
 .med-time{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:5px 8px;font-size:12px;font-family:'Bricolage Grotesque',sans-serif;width:88px}
 
-/* TOGGLE */
 .toggle-group{display:flex;gap:8px;flex-wrap:wrap}
 .toggle-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:8px 12px;font-size:13px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;flex:1;justify-content:center;-webkit-tap-highlight-color:transparent}
 .toggle-btn.active{background:rgba(167,139,250,.12);border-color:var(--purple);color:var(--purple)}
@@ -132,7 +104,6 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .textarea{resize:vertical;min-height:80px}
 .row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* HISTORY */
 .page-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--text);padding:16px 20px 4px}
 .history-list{padding:12px 16px;display:flex;flex-direction:column;gap:6px}
 .history-day-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -156,7 +127,6 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .opt-chip{font-size:11px;padding:3px 8px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:var(--bg3)}
 .opt-notes{font-size:12px;color:var(--muted);font-style:italic;line-height:1.5;margin-top:4px;width:100%}
 
-/* CHARTS (pure CSS, no lib) */
 .charts-area{padding:12px 16px}
 .chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px}
 .chart-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
@@ -176,42 +146,35 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
 .tl-dots{display:flex;gap:4px;align-items:center}
 .tl-dot{font-size:16px}
 
-/* EMPTY */
 .empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
 .empty-big{font-size:48px;margin-bottom:12px}
 .empty-state p{font-size:14px;line-height:1.7}
 
-/* TOAST */
-.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:100;pointer-events:none;transition:opacity .3s;white-space:nowrap}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:100;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity .3s}
 .toast.show{animation:toastAnim 3s ease forwards}
-@keyframes toastAnim{0%{opacity:0;transform:translateX(-50%) translateY(-8px)}15%,80%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0}}
+@keyframes toastAnim{0%{opacity:0;transform:translateX(-50%) translateY(-8px)}15%,80%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(0)}}
 
-/* LOADING */
 .loading-screen{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 .loading-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:28px;color:var(--purple)}
 .loading-msg{font-size:13px;color:var(--muted)}
-@keyframes spin{to{transform:rotate(360deg)}}
-.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .8s linear infinite}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-brand">
     <div class="header-title">neuro·log</div>
     <div class="header-sub">seu tracker de bem-estar</div>
   </div>
   <div class="header-right">
-    <span class="status-badge local" id="statusBadge">⬤ local</span>
+    <span class="status-badge saving" id="statusBadge">⟳ conectando</span>
     <span class="header-mood" id="headerMood"></span>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- PAGE: HOME -->
+<!-- HOME -->
 <div class="page active" id="pageHome">
   <div class="home">
     <div class="hero-card">
@@ -229,33 +192,21 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
   </div>
 </div>
 
-<!-- PAGE: CHECKIN -->
+<!-- CHECKIN -->
 <div class="page" id="pageCheckin">
   <div class="checkin-form">
     <div class="cf-header">
       <span class="cf-time-label">Horário</span>
       <input type="time" class="cf-time-input" id="cfTime">
     </div>
-
     <div class="core-section">
-      <div class="tri-field">
-        <div class="tri-label">Humor</div>
-        <div class="tri-group" id="triMood"></div>
-      </div>
-      <div class="tri-field">
-        <div class="tri-label">Agitação</div>
-        <div class="tri-group" id="triAgitation"></div>
-      </div>
-      <div class="tri-field">
-        <div class="tri-label">Energia</div>
-        <div class="tri-group" id="triEnergy"></div>
-      </div>
+      <div class="tri-field"><div class="tri-label">Humor</div><div class="tri-group" id="triMood"></div></div>
+      <div class="tri-field"><div class="tri-label">Agitação</div><div class="tri-group" id="triAgitation"></div></div>
+      <div class="tri-field"><div class="tri-label">Energia</div><div class="tri-group" id="triEnergy"></div></div>
     </div>
-
     <div class="opt-sections">
-      <!-- Sleep -->
       <div class="opt-section">
-        <button class="opt-header" onclick="toggleOpt('sleep',this)">🌙 Sono <span>▼</span></button>
+        <button class="opt-header" onclick="toggleOpt('Sleep',this)">🌙 Sono <span>▼</span></button>
         <div class="opt-body" id="optSleep" style="display:none">
           <div class="toggle-group" id="sleepBtns" style="margin-bottom:10px"></div>
           <div class="row-2">
@@ -264,23 +215,16 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
           </div>
         </div>
       </div>
-      <!-- Meds -->
       <div class="opt-section">
-        <button class="opt-header" onclick="toggleOpt('meds',this)">💊 Medicação <span>▼</span></button>
-        <div class="opt-body" id="optMeds" style="display:none">
-          <div id="medsRows"></div>
-        </div>
+        <button class="opt-header" onclick="toggleOpt('Meds',this)">💊 Medicação <span>▼</span></button>
+        <div class="opt-body" id="optMeds" style="display:none"><div id="medsRows"></div></div>
       </div>
-      <!-- Food -->
       <div class="opt-section">
-        <button class="opt-header" onclick="toggleOpt('food',this)">🥗 Alimentação <span>▼</span></button>
-        <div class="opt-body" id="optFood" style="display:none">
-          <div class="tri-group" id="triFood"></div>
-        </div>
+        <button class="opt-header" onclick="toggleOpt('Food',this)">🥗 Alimentação <span>▼</span></button>
+        <div class="opt-body" id="optFood" style="display:none"><div class="tri-group" id="triFood"></div></div>
       </div>
-      <!-- Exercise -->
       <div class="opt-section">
-        <button class="opt-header" onclick="toggleOpt('exercise',this)">🏃 Exercício <span>▼</span></button>
+        <button class="opt-header" onclick="toggleOpt('Exercise',this)">🏃 Exercício <span>▼</span></button>
         <div class="opt-body" id="optExercise" style="display:none">
           <div class="toggle-group" style="margin-bottom:10px">
             <button class="toggle-btn" id="exYes" onclick="setExercise(true)">✓ Fiz!</button>
@@ -289,71 +233,48 @@ body{padding-bottom:80px;max-width:480px;margin:0 auto;position:relative}
           <input type="text" class="text-input" id="exNotes" placeholder="o que foi, quanto tempo..." style="display:none">
         </div>
       </div>
-      <!-- Focus -->
       <div class="opt-section">
-        <button class="opt-header" onclick="toggleOpt('focus',this)">🎯 Foco <span>▼</span></button>
-        <div class="opt-body" id="optFocus" style="display:none">
-          <div class="tri-group" id="triFocus"></div>
-        </div>
+        <button class="opt-header" onclick="toggleOpt('Focus',this)">🎯 Foco <span>▼</span></button>
+        <div class="opt-body" id="optFocus" style="display:none"><div class="tri-group" id="triFocus"></div></div>
       </div>
-      <!-- Notes -->
       <div class="opt-section">
-        <button class="opt-header" onclick="toggleOpt('notes',this)">📝 Notas <span>▼</span></button>
+        <button class="opt-header" onclick="toggleOpt('Notes',this)">📝 Notas <span>▼</span></button>
         <div class="opt-body" id="optNotes" style="display:none">
           <textarea class="text-input textarea" id="cfNotes" rows="3" placeholder="Gatilhos, eventos do dia..."></textarea>
         </div>
       </div>
     </div>
-
     <div class="cf-actions">
       <button class="btn-secondary" onclick="showPage('home')">Cancelar</button>
-      <button class="btn-primary" id="btnSaveCheckin" onclick="saveCheckin()">Salvar check-in</button>
+      <button class="btn-primary" onclick="saveCheckin()">Salvar check-in</button>
     </div>
   </div>
 </div>
 
-<!-- PAGE: HISTORY -->
+<!-- HISTORY -->
 <div class="page" id="pageHistory">
   <div class="page-title">Histórico</div>
   <div id="historyContent"></div>
 </div>
 
-<!-- PAGE: CHARTS -->
+<!-- CHARTS -->
 <div class="page" id="pageCharts">
   <div class="page-title">Análises</div>
   <div id="chartsContent"></div>
 </div>
 
-<!-- PAGE: SETUP -->
-<div class="page" id="pageSetup">
-  <div class="setup-card">
-    <div class="setup-title">Configurar Google Drive</div>
-    <div class="setup-desc">Para salvar seus dados na nuvem, você precisa criar um backend gratuito com Google Apps Script. Leva menos de 5 minutos.</div>
-    <div class="setup-steps">
-      <div class="setup-step"><div class="step-num">1</div><div class="step-text">Abra <a href="https://script.google.com" target="_blank">script.google.com</a> e crie um novo projeto</div></div>
-      <div class="setup-step"><div class="step-num">2</div><div class="step-text">Cole o código do arquivo <code>neurolog_backend.gs</code> e salve (<code>Ctrl+S</code>)</div></div>
-      <div class="setup-step"><div class="step-num">3</div><div class="step-text">Clique em <strong>Implantar → Nova implantação</strong>, escolha tipo <strong>App da Web</strong></div></div>
-      <div class="setup-step"><div class="step-num">4</div><div class="step-text">Em "Quem tem acesso" selecione <strong>Qualquer pessoa</strong> e clique em <strong>Implantar</strong></div></div>
-      <div class="setup-step"><div class="step-num">5</div><div class="step-text">Copie a <strong>URL do app da web</strong> e cole abaixo</div></div>
-    </div>
-    <div class="setup-input-label">URL do Apps Script</div>
-    <input type="url" class="setup-input" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec">
-    <div class="setup-test-result" id="testResult"></div>
-    <button class="btn-secondary" style="margin-bottom:10px" onclick="testConnection()">🔗 Testar conexão</button>
-    <button class="btn-primary" id="btnSaveUrl" onclick="saveScriptUrl()" style="opacity:.4" disabled>Salvar e continuar</button>
-  </div>
-</div>
-
-<!-- NAV -->
 <nav class="nav">
   <button class="nav-btn active" id="navHome"    onclick="showPage('home')">    <span class="nav-icon">🏠</span><span>Início</span></button>
   <button class="nav-btn"        id="navCheckin" onclick="openCheckinForm()">   <span class="nav-icon">＋</span><span>Check-in</span></button>
   <button class="nav-btn"        id="navHistory" onclick="showPage('history')"> <span class="nav-icon">📋</span><span>Histórico</span></button>
   <button class="nav-btn"        id="navCharts"  onclick="showPage('charts')">  <span class="nav-icon">📈</span><span>Análises</span></button>
-  <button class="nav-btn"        id="navSetup"   onclick="showPage('setup')">   <span class="nav-icon">⚙️</span><span>Config</span></button>
 </nav>
 
 <script>
+// ── Config ─────────────────────────────────────────────────────────────────────
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp5AQo6ilfCk_N9yH9KFzTTIp492BVfnDhGA3TV6vwK-Yrcde_dXvAPVaR32Ohvrkn/exec";
+const CACHE_KEY  = "neurolog_days_v2";
+
 // ── Data ───────────────────────────────────────────────────────────────────────
 const MEDS = [
   {key:"puran",  label:"Puran",   color:"#60a5fa"},
@@ -371,37 +292,30 @@ const SLEEP_OPT = [{v:"noite_inteira",e:"🌙",l:"Noite inteira"},{v:"acordou_vo
 
 let days = {};
 let editingCheckin = null;
-let editingDate = null;
-let currentForm = {};
+let editingDate    = null;
+let currentForm    = {};
 
 const todayKey = () => new Date().toISOString().split("T")[0];
 const getOpt   = (opts,v) => opts.find(o=>o.v===v);
 const avg      = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
 
 // ── Storage ────────────────────────────────────────────────────────────────────
-const CACHE_KEY  = "neurolog_days";
-const URL_KEY    = "neurolog_script_url";
-
-function getScriptUrl(){ return localStorage.getItem(URL_KEY)||""; }
-function saveScriptUrlLocal(url){ localStorage.setItem(URL_KEY,url); }
 function loadCache(){ try{ return JSON.parse(localStorage.getItem(CACHE_KEY)||"{}"); }catch{ return {}; } }
 function saveCache(d){ try{ localStorage.setItem(CACHE_KEY,JSON.stringify(d)); }catch{} }
 
 async function loadFromDrive(){
-  const url = getScriptUrl(); if(!url) return null;
   try{
-    const r = await fetch(url+"?action=load");
+    const r = await fetch(SCRIPT_URL+"?action=load&t="+Date.now());
     const j = await r.json();
     return j.status==="ok" ? j.data : null;
   }catch{ return null; }
 }
 
 async function saveToDrive(d){
-  const url = getScriptUrl(); if(!url) return false;
   try{
-    const r = await fetch(url, {
+    const r = await fetch(SCRIPT_URL, {
       method:"POST",
-      headers:{"Content-Type":"application/json"},
+      headers:{"Content-Type":"text/plain"},
       body: JSON.stringify({action:"save",data:d})
     });
     const j = await r.json();
@@ -424,21 +338,23 @@ async function init(){
   buildMedRows();
   buildSleepBtns();
 
-  const url = getScriptUrl();
-  if(!url){ setStatus("local"); return; }
-
   setStatus("saving");
   const driveData = await loadFromDrive();
-  if(driveData){ days=driveData; saveCache(days); setStatus("synced"); }
-  else setStatus("local");
+  if(driveData){
+    days = driveData;
+    saveCache(days);
+    setStatus("synced");
+    showToast("☁ Dados carregados do Drive","#60a5fa");
+  } else {
+    setStatus("local");
+  }
   renderHome();
 }
 
 // ── Tri Pickers ────────────────────────────────────────────────────────────────
-function buildTriPicker(containerId, opts, field){
-  const el=document.getElementById(containerId);
-  el.innerHTML=opts.map(o=>`
-    <button class="tri-btn" data-val="${o.v}" onclick="setFormField('${field}',${o.v},this,document.getElementById('${containerId}'))">
+function buildTriPicker(id, opts, field){
+  document.getElementById(id).innerHTML = opts.map(o=>`
+    <button class="tri-btn" data-val="${o.v}" onclick="setTri('${field}',${o.v},'${id}',this)">
       <span class="tri-emoji">${o.e}</span>
       <span class="tri-text">${o.l}</span>
     </button>`).join("");
@@ -452,10 +368,10 @@ function buildTriPickers(){
   buildTriPicker("triFocus",FOCUS,"focus");
 }
 
-function setFormField(field, val, btn, container){
+function setTri(field, val, containerId, btn){
   if(currentForm[field]===val){ currentForm[field]=null; btn.classList.remove("active"); return; }
   currentForm[field]=val;
-  container.querySelectorAll(".tri-btn").forEach(b=>b.classList.remove("active"));
+  document.getElementById(containerId).querySelectorAll(".tri-btn").forEach(b=>b.classList.remove("active"));
   btn.classList.add("active");
 }
 
@@ -473,10 +389,9 @@ function buildMedRows(){
 
 function setMed(key, val){
   const cur = currentForm.meds[key].taken;
-  const newVal = cur===val ? null : val;
-  currentForm.meds[key].taken = newVal;
-  document.getElementById("medTaken_"+key).className="med-btn"+(newVal===true?" taken":"");
-  document.getElementById("medSkip_"+key).className="med-btn"+(newVal===false?" skipped":"");
+  currentForm.meds[key].taken = cur===val ? null : val;
+  document.getElementById("medTaken_"+key).className="med-btn"+(currentForm.meds[key].taken===true?" taken":"");
+  document.getElementById("medSkip_"+key).className="med-btn"+(currentForm.meds[key].taken===false?" skipped":"");
 }
 
 function buildSleepBtns(){
@@ -485,15 +400,13 @@ function buildSleepBtns(){
 }
 
 function setSleep(val, btn){
-  if(currentForm.sleep_quality===val){ currentForm.sleep_quality=null; document.querySelectorAll("#sleepBtns .toggle-btn").forEach(b=>b.classList.remove("active")); return; }
-  currentForm.sleep_quality=val;
+  currentForm.sleep_quality = currentForm.sleep_quality===val ? null : val;
   document.querySelectorAll("#sleepBtns .toggle-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
+  if(currentForm.sleep_quality) btn.classList.add("active");
 }
 
 function setExercise(val){
-  const cur=currentForm.exercised;
-  currentForm.exercised = cur===val ? null : val;
+  currentForm.exercised = currentForm.exercised===val ? null : val;
   document.getElementById("exYes").className="toggle-btn"+(currentForm.exercised===true?" active green":"");
   document.getElementById("exNo").className="toggle-btn"+(currentForm.exercised===false?" active red":"");
   document.getElementById("exNotes").style.display=currentForm.exercised===true?"block":"none";
@@ -501,37 +414,33 @@ function setExercise(val){
 
 // ── Checkin Form ───────────────────────────────────────────────────────────────
 function openCheckinForm(date, checkin){
-  editingDate = date || todayKey();
-  editingCheckin = checkin || null;
+  editingDate     = date || todayKey();
+  editingCheckin  = checkin || null;
   currentForm = checkin ? JSON.parse(JSON.stringify(checkin)) : {
-    id:Date.now(),
-    time:new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),
-    mood:null,agitation:null,energy:null,
-    sleep_quality:null,sleep_wake_time:"",sleep_hours:"",
-    meds:Object.fromEntries(MEDS.map(m=>[m.key,{taken:null,time:""}])),
-    food:null,exercised:null,exercise_notes:"",focus:null,notes:""
+    id: Date.now(),
+    time: new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),
+    mood:null, agitation:null, energy:null,
+    sleep_quality:null, sleep_wake_time:"", sleep_hours:"",
+    meds: Object.fromEntries(MEDS.map(m=>[m.key,{taken:null,time:""}])),
+    food:null, exercised:null, exercise_notes:"", focus:null, notes:""
   };
 
-  // Set time
-  document.getElementById("cfTime").value=currentForm.time;
+  document.getElementById("cfTime").value = currentForm.time;
 
-  // Reset pickers
+  // Reset all pickers
   ["triMood","triAgitation","triEnergy","triFood","triFocus"].forEach(id=>{
     document.getElementById(id).querySelectorAll(".tri-btn").forEach(b=>b.classList.remove("active"));
   });
 
-  // Restore values if editing
-  const restoreTri=(id,field,opts)=>{
-    if(currentForm[field]!=null){
-      const btns=document.getElementById(id).querySelectorAll(".tri-btn");
-      btns.forEach(b=>{ if(parseInt(b.dataset.val)===currentForm[field]) b.classList.add("active"); });
-    }
+  // Restore tri values
+  const rTri=(id,field)=>{
+    if(currentForm[field]!=null)
+      document.getElementById(id).querySelectorAll(".tri-btn").forEach(b=>{
+        if(parseInt(b.dataset.val)===currentForm[field]) b.classList.add("active");
+      });
   };
-  restoreTri("triMood","mood",MOOD);
-  restoreTri("triAgitation","agitation",AGITATION);
-  restoreTri("triEnergy","energy",ENERGY);
-  restoreTri("triFood","food",FOOD);
-  restoreTri("triFocus","focus",FOCUS);
+  rTri("triMood","mood"); rTri("triAgitation","agitation"); rTri("triEnergy","energy");
+  rTri("triFood","food"); rTri("triFocus","focus");
 
   // Meds
   MEDS.forEach(m=>{
@@ -542,11 +451,9 @@ function openCheckinForm(date, checkin){
   });
 
   // Sleep
-  document.querySelectorAll("#sleepBtns .toggle-btn").forEach(b=>b.classList.remove("active"));
-  if(currentForm.sleep_quality){
-    const btns=document.querySelectorAll("#sleepBtns .toggle-btn");
-    SLEEP_OPT.forEach((o,i)=>{ if(o.v===currentForm.sleep_quality) btns[i].classList.add("active"); });
-  }
+  document.querySelectorAll("#sleepBtns .toggle-btn").forEach((b,i)=>{
+    b.classList.toggle("active", SLEEP_OPT[i]?.v===currentForm.sleep_quality);
+  });
   document.getElementById("sleepWake").value=currentForm.sleep_wake_time||"";
   document.getElementById("sleepHours").value=currentForm.sleep_hours||"";
 
@@ -555,58 +462,56 @@ function openCheckinForm(date, checkin){
   document.getElementById("exNo").className="toggle-btn"+(currentForm.exercised===false?" active red":"");
   document.getElementById("exNotes").style.display=currentForm.exercised===true?"block":"none";
   document.getElementById("exNotes").value=currentForm.exercise_notes||"";
-
-  // Notes
   document.getElementById("cfNotes").value=currentForm.notes||"";
 
-  // Close all opt sections
+  // Close opt sections
   document.querySelectorAll(".opt-body").forEach(b=>b.style.display="none");
-  document.querySelectorAll(".opt-header span:last-child").forEach(a=>a.textContent="▼");
-  document.querySelectorAll(".opt-header").forEach(h=>h.classList.remove("open"));
+  document.querySelectorAll(".opt-header").forEach(h=>{ h.classList.remove("open"); h.querySelector("span:last-child").textContent="▼"; });
 
   showPage("checkin");
 }
 
-function toggleOpt(id,btn){
-  const body=document.getElementById("opt"+id[0].toUpperCase()+id.slice(1));
-  const arrow=btn.querySelector("span:last-child");
+function toggleOpt(id, btn){
+  const body=document.getElementById("opt"+id);
   const open=body.style.display==="none";
   body.style.display=open?"block":"none";
-  arrow.textContent=open?"▲":"▼";
+  btn.querySelector("span:last-child").textContent=open?"▲":"▼";
   btn.classList.toggle("open",open);
 }
 
 async function saveCheckin(){
-  // Collect values
-  currentForm.time = document.getElementById("cfTime").value;
+  currentForm.time              = document.getElementById("cfTime").value;
+  currentForm.sleep_wake_time   = document.getElementById("sleepWake").value;
+  currentForm.sleep_hours       = document.getElementById("sleepHours").value;
+  currentForm.exercise_notes    = document.getElementById("exNotes").value;
+  currentForm.notes             = document.getElementById("cfNotes").value;
   MEDS.forEach(m=>{ currentForm.meds[m.key].time=document.getElementById("medTime_"+m.key).value; });
-  currentForm.sleep_wake_time=document.getElementById("sleepWake").value;
-  currentForm.sleep_hours=document.getElementById("sleepHours").value;
-  currentForm.exercise_notes=document.getElementById("exNotes").value;
-  currentForm.notes=document.getElementById("cfNotes").value;
 
   if(!currentForm.mood && !currentForm.agitation && !currentForm.energy){
-    showToast("Selecione pelo menos um campo principal","#f87171"); return;
+    showToast("Selecione pelo menos humor, agitação ou energia","#f87171"); return;
   }
 
-  const date=editingDate||todayKey();
-  const day=days[date]||{date,checkins:[]};
-  const idx=day.checkins.findIndex(c=>c.id===currentForm.id);
-  const updated=idx>=0 ? day.checkins.map((c,i)=>i===idx?{...currentForm}:c) : [...day.checkins,{...currentForm}];
-  days={...days,[date]:{...day,checkins:updated}};
+  const date = editingDate || todayKey();
+  const day  = days[date] || {date, checkins:[]};
+  const idx  = day.checkins.findIndex(c=>c.id===currentForm.id);
+  const updated = idx>=0
+    ? day.checkins.map((c,i)=>i===idx?{...currentForm}:c)
+    : [...day.checkins, {...currentForm}];
+  days = {...days, [date]:{...day, checkins:updated}};
+
   saveCache(days);
   renderHome();
   showPage("home");
-  showToast("✓ Salvo localmente","#34d399");
+  showToast("✓ Salvo!","#34d399");
 
-  // Sync to Drive
   setStatus("saving");
-  const ok=await saveToDrive(days);
+  const ok = await saveToDrive(days);
   setStatus(ok?"synced":"local");
   if(ok) showToast("☁ Sincronizado com o Drive","#60a5fa");
+  else   showToast("⚠ Drive indisponível, salvo localmente","#facc15");
 }
 
-async function deleteCheckin(date,id){
+async function deleteCheckin(date, id){
   if(!confirm("Apagar este check-in?")) return;
   const day=days[date]; if(!day) return;
   const checkins=day.checkins.filter(c=>c.id!==id);
@@ -615,8 +520,8 @@ async function deleteCheckin(date,id){
   saveCache(days);
   renderHistory();
   setStatus("saving");
-  await saveToDrive(days);
-  setStatus(getScriptUrl()?"synced":"local");
+  const ok=await saveToDrive(days);
+  setStatus(ok?"synced":"local");
 }
 
 // ── Render ─────────────────────────────────────────────────────────────────────
@@ -624,7 +529,6 @@ function renderHome(){
   const today=todayKey();
   document.getElementById("heroDate").textContent=
     new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"});
-
   const todayDay=days[today];
   const heroEl=document.getElementById("heroCheckins");
   if(todayDay?.checkins?.length>0){
@@ -633,14 +537,12 @@ function renderHome(){
       const m=getOpt(MOOD,c.mood);
       return `<span class="hero-dot">${c.time} ${m?m.e:"·"}</span>`;
     }).join("")}</div>`;
-    // Update header mood
     const last=sorted[sorted.length-1];
     document.getElementById("headerMood").textContent=getOpt(MOOD,last.mood)?.e||"";
   } else {
     heroEl.innerHTML='<div class="hero-empty">Nenhum check-in ainda hoje</div>';
     document.getElementById("headerMood").textContent="";
   }
-
   document.getElementById("homeSecondary").style.display=Object.keys(days).length>0?"grid":"none";
 }
 
@@ -699,7 +601,7 @@ function renderDayView(date){
               <div class="checkin-top">
                 <div class="checkin-time">${c.time}</div>
                 <div class="checkin-actions-row">
-                  <button class="btn-xs" onclick="openCheckinForm('${date}',days['${date}'].checkins.find(x=>x.id===${c.id}))">editar</button>
+                  <button class="btn-xs" onclick='openCheckinForm("${date}",${JSON.stringify(c).replace(/'/g,"&#39;")})'>editar</button>
                   <button class="btn-xs" style="color:var(--red)" onclick="deleteCheckin('${date}',${c.id})">apagar</button>
                 </div>
               </div>
@@ -728,25 +630,16 @@ function renderCharts(){
     el.innerHTML='<div class="empty-state"><div class="empty-big">📊</div><p>Registre pelo menos 2 dias<br>para ver os gráficos.</p></div>';
     return;
   }
-
   const allMoods=allDays.flatMap(d=>d.checkins.map(c=>c.mood).filter(Boolean));
   const avgMoodGlobal=allMoods.length?(allMoods.reduce((a,b)=>a+b,0)/allMoods.length).toFixed(1):"–";
   const totalCheckins=allDays.reduce((s,d)=>s+d.checkins.length,0);
   const exerciseDays=allDays.filter(d=>d.checkins.some(c=>c.exercised===true)).length;
-
   const medsBar=MEDS.map(med=>{
     const all=allDays.flatMap(d=>d.checkins.filter(c=>c.meds[med.key]?.taken!==null&&c.meds[med.key]?.taken!==undefined));
     const taken=all.filter(c=>c.meds[med.key]?.taken===true);
     return{...med,rate:all.length?Math.round((taken.length/all.length)*100):0};
   });
-
-  // Timeline (last 14 days)
   const recent=allDays.slice(-14);
-  const timeline=recent.map(d=>{
-    const moods=d.checkins.map(c=>c.mood).filter(Boolean);
-    return{date:d.date,dots:d.checkins.map(c=>getOpt(MOOD,c.mood)?.e||"·")};
-  });
-
   el.innerHTML=`
     <div class="charts-area">
       <div class="stats-grid">
@@ -769,43 +662,14 @@ function renderCharts(){
       <div class="chart-card">
         <div class="chart-title">Humor — últimas 2 semanas</div>
         <div class="mood-timeline">
-          ${timeline.map(t=>`
+          ${recent.map(d=>`
             <div class="timeline-row">
-              <div class="tl-date">${new Date(t.date+"T12:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</div>
-              <div class="tl-dots">${t.dots.map(d=>`<span class="tl-dot">${d}</span>`).join("")}</div>
+              <div class="tl-date">${new Date(d.date+"T12:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</div>
+              <div class="tl-dots">${d.checkins.map(c=>`<span class="tl-dot">${getOpt(MOOD,c.mood)?.e||"·"}</span>`).join("")}</div>
             </div>`).join("")}
         </div>
       </div>
     </div>`;
-}
-
-// ── Setup ──────────────────────────────────────────────────────────────────────
-async function testConnection(){
-  const url=document.getElementById("scriptUrl").value.trim();
-  const res=document.getElementById("testResult");
-  if(!url){ res.textContent="Cole a URL do Apps Script"; res.className="setup-test-result fail"; return; }
-  res.textContent="Testando..."; res.className="setup-test-result ok";
-  try{
-    const r=await fetch(url+"?action=load");
-    const j=await r.json();
-    if(j.status==="ok"){
-      res.textContent="✓ Conexão funcionando!"; res.className="setup-test-result ok";
-      document.getElementById("btnSaveUrl").disabled=false;
-      document.getElementById("btnSaveUrl").style.opacity="1";
-    } else {
-      res.textContent="✗ Resposta inesperada: "+JSON.stringify(j); res.className="setup-test-result fail";
-    }
-  }catch(e){
-    res.textContent="✗ Erro: "+e.toString(); res.className="setup-test-result fail";
-  }
-}
-
-function saveScriptUrl(){
-  const url=document.getElementById("scriptUrl").value.trim();
-  saveScriptUrlLocal(url);
-  showToast("✓ URL salva! Sincronizando...","#34d399");
-  showPage("home");
-  init();
 }
 
 // ── Navigation ─────────────────────────────────────────────────────────────────
@@ -813,27 +677,19 @@ function showPage(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
   document.getElementById("page"+name[0].toUpperCase()+name.slice(1)).classList.add("active");
-  document.getElementById("nav"+name[0].toUpperCase()+name.slice(1)).classList.add("active");
+  const navBtn=document.getElementById("nav"+name[0].toUpperCase()+name.slice(1));
+  if(navBtn) navBtn.classList.add("active");
   if(name==="history") renderHistory();
   if(name==="charts")  renderCharts();
-
-  // Pre-fill setup url
-  if(name==="setup"){
-    const url=getScriptUrl();
-    if(url) document.getElementById("scriptUrl").value=url;
-  }
 }
 
 function showToast(msg, bg="#34d399"){
   const t=document.getElementById("toast");
-  t.textContent=msg;
-  t.style.background=bg;
-  t.style.color="#0c0c14";
+  t.textContent=msg; t.style.background=bg; t.style.color="#0c0c14";
+  t.className="toast"; void t.offsetWidth;
   t.className="toast show";
-  setTimeout(()=>t.className="toast",3000);
 }
 
-// ── Start ──────────────────────────────────────────────────────────────────────
 init();
 </script>
 </body>
