@@ -16,42 +16,39 @@
 :root{
   --bg:#0c0c14;--bg2:#13131f;--bg3:#1a1a28;--border:#252535;
   --text:#e6e6f0;--muted:#7a7a90;
-  --purple:#a78bfa;--green:#34d399;--yellow:#facc15;--blue:#60a5fa;--red:#f87171;--orange:#fb923c;
-  --nav-h:64px;
+  --purple:#a78bfa;--orange:#fb923c;--green:#34d399;
+  --yellow:#facc15;--blue:#60a5fa;--red:#f87171;
 }
 html,body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sans-serif;-webkit-font-smoothing:antialiased}
-body{max-width:480px;margin:0 auto;padding-bottom:calc(var(--nav-h) + 24px)}
+body{max-width:480px;margin:0 auto;padding-bottom:90px}
 
-/* HEADER */
 .header{padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;background:rgba(12,12,20,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.header-brand{display:flex;flex-direction:column}
 .header-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--purple);line-height:1}
 .header-sub{font-size:10px;color:var(--muted);letter-spacing:.5px;margin-top:2px}
 .header-right{display:flex;align-items:center;gap:8px}
 .header-mood{font-size:24px}
-.badge{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500}
-.badge.synced{border:1px solid rgba(52,211,153,.3);color:#34d399;background:rgba(52,211,153,.08)}
-.badge.saving{border:1px solid rgba(167,139,250,.3);color:var(--purple);background:rgba(167,139,250,.08);animation:pulse 1s ease infinite}
-.badge.local{border:1px solid rgba(250,204,21,.3);color:#facc15;background:rgba(250,204,21,.08)}
-@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.status-badge{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500}
+.status-badge.synced{border:1px solid rgba(52,211,153,.3);color:#34d399;background:rgba(52,211,153,.08)}
+.status-badge.saving{border:1px solid rgba(167,139,250,.3);color:var(--purple);background:rgba(167,139,250,.08);animation:pulse 1s ease infinite}
+.status-badge.local{border:1px solid rgba(250,204,21,.3);color:#facc15;background:rgba(250,204,21,.08)}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
 
-/* NAV */
+/* NAV — hidden when on checkin page */
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:20;padding-bottom:env(safe-area-inset-bottom)}
 .nav.hidden{display:none}
 .nav-btn{flex:1;background:none;border:none;color:var(--muted);padding:10px 4px 8px;font-size:9px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;text-transform:uppercase;letter-spacing:.5px;-webkit-tap-highlight-color:transparent;transition:color .15s}
 .nav-btn.active{color:var(--purple)}
 .nav-icon{font-size:18px}
 
-/* BUTTONS */
 .btn-primary{background:var(--purple);color:#0c0c14;border:none;border-radius:14px;padding:15px 20px;width:100%;font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .btn-primary:active{opacity:.85}
 .btn-secondary{background:var(--bg2);color:var(--muted);border:1px solid var(--border);border-radius:14px;padding:13px 16px;font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;-webkit-tap-highlight-color:transparent;width:100%}
 .btn-xs{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 10px;font-size:11px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.btn-add{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);color:var(--purple);border-radius:10px;padding:6px 12px;font-size:12px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;font-weight:500;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.btn-add-checkin{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);color:var(--purple);border-radius:10px;padding:6px 12px;font-size:12px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;font-weight:500;-webkit-tap-highlight-color:transparent}
 
-/* PAGES */
 .page{display:none}.page.active{display:block}
 
-/* HOME */
 .home{padding:20px}
 .hero-card{background:linear-gradient(135deg,#1a1030 0%,#13131f 60%,#0f1a1a 100%);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
 .hero-card::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(167,139,250,.1) 0%,transparent 70%);pointer-events:none}
@@ -63,25 +60,22 @@ body{max-width:480px;margin:0 auto;padding-bottom:calc(var(--nav-h) + 24px)}
 .home-actions{display:flex;flex-direction:column;gap:10px}
 .home-secondary{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* CHECKIN FORM */
 .checkin-form{padding:16px}
-.cf-header{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.cf-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .cf-time-label{font-size:13px;color:var(--muted);font-weight:500}
-.cf-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:6px 10px;font-size:14px;font-weight:600;font-family:'Bricolage Grotesque',sans-serif}
-.cf-actions{display:flex;gap:10px;margin-top:16px;padding-bottom:8px}
+.cf-time-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:6px 10px;font-size:15px;font-weight:600;font-family:'Bricolage Grotesque',sans-serif}
+.cf-actions{display:flex;gap:10px;margin-top:16px;padding-bottom:16px}
 
-/* CORE */
 .core-section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px;display:flex;flex-direction:column;gap:16px}
 .tri-field{display:flex;flex-direction:column;gap:6px}
 .tri-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
 .tri-group{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.tri-btn{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s}
+.tri-btn{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;-webkit-tap-highlight-color:transparent;transition:all .15s}
 .tri-btn.active{border-color:var(--purple);background:rgba(167,139,250,.15)}
 .tri-emoji{font-size:24px;line-height:1}
 .tri-text{font-size:11px;color:var(--muted)}
 .tri-btn.active .tri-text{color:var(--purple)}
 
-/* OPTIONAL SECTIONS */
 .opt-sections{display:flex;flex-direction:column;gap:6px}
 .opt-section{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .opt-header{width:100%;background:none;border:none;color:var(--muted);padding:12px 14px;font-size:13px;font-weight:500;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;justify-content:space-between;align-items:center;-webkit-tap-highlight-color:transparent}
@@ -89,17 +83,15 @@ body{max-width:480px;margin:0 auto;padding-bottom:calc(var(--nav-h) + 24px)}
 .opt-body{padding:12px 14px 14px;border-top:1px solid var(--border)}
 .opt-field-label{font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:500}
 
-/* MEDS */
-.med-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
+.med-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
 .med-row:last-child{border-bottom:none;padding-bottom:0}
-.med-name{font-size:13px;font-weight:600;min-width:56px}
+.med-name{font-size:13px;font-weight:600;min-width:58px}
 .med-controls{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap}
 .med-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 10px;font-size:13px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
 .med-btn.taken{background:rgba(52,211,153,.12);border-color:var(--green);color:var(--green)}
 .med-btn.skipped{background:rgba(248,113,113,.1);border-color:var(--red);color:var(--red)}
-.med-time{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:5px 8px;font-size:12px;font-family:'Bricolage Grotesque',sans-serif;width:86px}
+.med-time{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:5px 8px;font-size:12px;font-family:'Bricolage Grotesque',sans-serif;width:88px}
 
-/* TOGGLE */
 .toggle-group{display:flex;gap:8px;flex-wrap:wrap}
 .toggle-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:8px 12px;font-size:13px;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;flex:1;justify-content:center;-webkit-tap-highlight-color:transparent;transition:all .15s}
 .toggle-btn.active{background:rgba(167,139,250,.12);border-color:var(--purple);color:var(--purple)}
@@ -112,7 +104,6 @@ body{max-width:480px;margin:0 auto;padding-bottom:calc(var(--nav-h) + 24px)}
 .textarea{resize:vertical;min-height:80px}
 .row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* HISTORY */
 .page-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px}
 .page-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--text)}
 .history-list{padding:4px 16px 0;display:flex;flex-direction:column;gap:6px}
@@ -128,16 +119,15 @@ body{max-width:480px;margin:0 auto;padding-bottom:calc(var(--nav-h) + 24px)}
 .checkin-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px}
 .checkin-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .checkin-time{font-size:14px;font-weight:700;color:var(--purple)}
-.checkin-btns{display:flex;gap:6px}
+.checkin-actions-row{display:flex;gap:6px}
 .checkin-core{display:flex;gap:8px;flex-wrap:wrap}
 .core-chip{display:flex;align-items:center;gap:4px;font-size:13px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:3px 10px;color:var(--text)}
-.core-chip.agit{border-color:rgba(251,146,60,.3);color:var(--orange)}
-.core-chip.energy{border-color:rgba(52,211,153,.3);color:var(--green)}
-.checkin-opts{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}
+.core-chip.agit{border-color:rgba(251,146,60,.3);color:#fb923c}
+.core-chip.energy{border-color:rgba(52,211,153,.3);color:#34d399}
+.checkin-optional{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}
 .opt-chip{font-size:11px;padding:3px 8px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:var(--bg3)}
 .opt-notes{font-size:12px;color:var(--muted);font-style:italic;line-height:1.5;margin-top:4px;width:100%}
 
-/* CHARTS */
 .charts-area{padding:12px 16px}
 .chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px}
 .chart-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
@@ -156,7 +146,6 @@ body{max-width:480px;margin:0 auto;padding-bottom:calc(var(--nav-h) + 24px)}
 .tl-date{font-size:10px;color:var(--muted);min-width:44px}
 .tl-dots{display:flex;gap:4px}
 
-/* MISC */
 .empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
 .empty-big{font-size:48px;margin-bottom:12px}
 .empty-state p{font-size:14px;line-height:1.7}
@@ -168,12 +157,12 @@ body{max-width:480px;margin:0 auto;padding-bottom:calc(var(--nav-h) + 24px)}
 <body>
 
 <div class="header">
-  <div>
+  <div class="header-brand">
     <div class="header-title">neuro·log</div>
     <div class="header-sub">seu tracker de bem-estar</div>
   </div>
   <div class="header-right">
-    <span class="badge saving" id="badge">⟳ conectando</span>
+    <span class="status-badge saving" id="statusBadge">⟳ conectando</span>
     <span class="header-mood" id="headerMood"></span>
   </div>
 </div>
@@ -202,10 +191,8 @@ body{max-width:480px;margin:0 auto;padding-bottom:calc(var(--nav-h) + 24px)}
 <div class="page" id="pageCheckin">
   <div class="checkin-form">
     <div class="cf-header">
-      <span class="cf-time-label">Data</span>
-      <input type="date" class="cf-input" id="cfDate">
-      <span class="cf-time-label">Hora</span>
-      <input type="time" class="cf-input" id="cfTime">
+      <span class="cf-time-label">Horário</span>
+      <input type="time" class="cf-time-input" id="cfTime">
     </div>
     <div class="core-section">
       <div class="tri-field"><div class="tri-label">Humor</div><div class="tri-group" id="triMood"></div></div>
@@ -263,7 +250,7 @@ body{max-width:480px;margin:0 auto;padding-bottom:calc(var(--nav-h) + 24px)}
 <div class="page" id="pageHistory">
   <div class="page-header">
     <div class="page-title">Histórico</div>
-    <button class="btn-add" onclick="openCheckinForm()">＋ check-in</button>
+    <button class="btn-add-checkin" onclick="openCheckinForm()">＋ check-in</button>
   </div>
   <div id="historyContent"></div>
 </div>
@@ -303,20 +290,30 @@ const todayKey = () => new Date().toISOString().split("T")[0];
 const getOpt   = (opts,v) => opts.find(o=>o.v===v);
 const avg      = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
 
-// ── Storage ────────────────────────────────────────────────────────────────────
 function loadCache(){ try{ return JSON.parse(localStorage.getItem(CACHE_KEY)||"{}"); }catch{ return {}; } }
 function saveCache(d){ try{ localStorage.setItem(CACHE_KEY,JSON.stringify(d)); }catch{} }
 
-function jsonp(url, timeout=10000){
+// JSONP — works across domains without CORS
+function jsonp(url, timeout=12000){
   return new Promise((resolve,reject)=>{
     const cb = "_cb"+Date.now();
     let done = false;
-    const timer = setTimeout(()=>{ if(!done){ done=true; cleanup(); reject(new Error("timeout")); }}, timeout);
-    window[cb] = data => { if(!done){ done=true; cleanup(); resolve(data); }};
+    const timer = setTimeout(()=>{
+      if(!done){ done=true; cleanup(); reject(new Error("timeout")); }
+    }, timeout);
+    window[cb] = data => {
+      if(!done){ done=true; cleanup(); resolve(data); }
+    };
     const s = document.createElement("script");
     s.src = url + "&cb=" + cb;
-    s.onerror = () => { if(!done){ done=true; cleanup(); reject(new Error("script error")); }};
-    function cleanup(){ clearTimeout(timer); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    s.onerror = () => {
+      if(!done){ done=true; cleanup(); reject(new Error("error")); }
+    };
+    function cleanup(){
+      clearTimeout(timer);
+      delete window[cb];
+      if(s.parentNode) s.parentNode.removeChild(s);
+    }
     document.head.appendChild(s);
   });
 }
@@ -336,34 +333,25 @@ async function saveToDrive(d){
   }catch(e){ console.error("save:",e); return false; }
 }
 
-function setBadge(s){
-  const b=document.getElementById("badge");
-  if(s==="synced"){ b.textContent="☁ Drive"; b.className="badge synced"; }
-  else if(s==="saving"){ b.textContent="⟳ salvando"; b.className="badge saving"; }
-  else{ b.textContent="⬤ local"; b.className="badge local"; }
+function setStatus(s){
+  const b=document.getElementById("statusBadge");
+  if(s==="synced"){ b.textContent="☁ Drive"; b.className="status-badge synced"; }
+  else if(s==="saving"){ b.textContent="⟳ salvando"; b.className="status-badge saving"; }
+  else{ b.textContent="⬤ local"; b.className="status-badge local"; }
 }
 
-// ── Init ───────────────────────────────────────────────────────────────────────
+// Init — render immediately from cache, sync Drive in background
 function init(){
-  // Render immediately from cache — never block on Drive
   days = loadCache();
   buildUI();
   renderHome();
-  setBadge("local");
-
-  // Sync with Drive in background
+  setStatus("saving");
   loadFromDrive().then(driveData => {
-    if(driveData){
-      days = driveData;
-      saveCache(days);
-      setBadge("synced");
-      renderHome();
-      showToast("☁ Dados carregados","#60a5fa");
-    }
-  }).catch(() => setBadge("local"));
+    if(driveData){ days=driveData; saveCache(days); setStatus("synced"); renderHome(); showToast("☁ Dados carregados","#60a5fa"); }
+    else setStatus("local");
+  }).catch(()=> setStatus("local"));
 }
 
-// ── Build UI ───────────────────────────────────────────────────────────────────
 function buildUI(){
   buildTri("triMood",MOOD,"mood");
   buildTri("triAgitation",AGITATION,"agitation");
@@ -415,7 +403,6 @@ function setExercise(val){
   document.getElementById("exNotes").style.display=currentForm.exercised===true?"block":"none";
 }
 
-// ── Checkin Form ───────────────────────────────────────────────────────────────
 function openCheckinForm(date, checkin){
   editingDate = date || todayKey();
   currentForm = checkin ? JSON.parse(JSON.stringify(checkin)) : {
@@ -427,9 +414,7 @@ function openCheckinForm(date, checkin){
     food:null,exercised:null,exercise_notes:"",focus:null,notes:""
   };
 
-  document.getElementById("cfDate").value = editingDate;
   document.getElementById("cfTime").value = currentForm.time;
-
   ["triMood","triAgitation","triEnergy","triFood","triFocus"].forEach(id=>
     document.getElementById(id).querySelectorAll(".tri-btn").forEach(b=>b.classList.remove("active")));
 
@@ -475,7 +460,6 @@ function toggleOpt(id,btn){
 }
 
 async function saveCheckin(){
-  const date = document.getElementById("cfDate").value || todayKey();
   currentForm.time           = document.getElementById("cfTime").value;
   currentForm.sleep_wake_time= document.getElementById("sleepWake").value;
   currentForm.sleep_hours    = document.getElementById("sleepHours").value;
@@ -487,22 +471,24 @@ async function saveCheckin(){
     showToast("Selecione pelo menos um campo","#f87171"); return;
   }
 
-  const day = days[date] || {date, checkins:[]};
-  const idx = day.checkins.findIndex(c=>c.id===currentForm.id);
+  const date = editingDate || todayKey();
+  const day  = days[date] || {date, checkins:[]};
+  const idx  = day.checkins.findIndex(c=>c.id===currentForm.id);
   const checkins = idx>=0
     ? day.checkins.map((c,i)=>i===idx?{...currentForm}:c)
-    : [...day.checkins, {...currentForm}];
-  days = {...days, [date]:{...day,checkins}};
+    : [...day.checkins,{...currentForm}];
+  days = {...days,[date]:{...day,checkins}};
   saveCache(days);
   renderHome();
   showPage("home");
   showToast("✓ Salvo!","#34d399");
 
-  setBadge("saving");
-  const ok = await saveToDrive(days);
-  setBadge(ok?"synced":"local");
-  if(ok) showToast("☁ Sincronizado com o Drive","#60a5fa");
-  else   showToast("⚠ Drive indisponível","#facc15");
+  setStatus("saving");
+  saveToDrive(days).then(ok=>{
+    setStatus(ok?"synced":"local");
+    if(ok) showToast("☁ Sincronizado com o Drive","#60a5fa");
+    else   showToast("⚠ Drive indisponível","#facc15");
+  });
 }
 
 async function deleteCheckin(date,id){
@@ -512,11 +498,10 @@ async function deleteCheckin(date,id){
   if(checkins.length===0){days={...days};delete days[date];}
   else days={...days,[date]:{...day,checkins}};
   saveCache(days); renderHistory();
-  setBadge("saving");
-  setBadge(await saveToDrive(days)?"synced":"local");
+  setStatus("saving");
+  saveToDrive(days).then(ok=> setStatus(ok?"synced":"local"));
 }
 
-// ── Render ─────────────────────────────────────────────────────────────────────
 function renderHome(){
   document.getElementById("heroDate").textContent=
     new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"});
@@ -565,18 +550,17 @@ function renderDayView(date){
     <div class="day-view">
       <div class="day-header">
         <div class="day-date-label">${new Date(date+"T12:00").toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long"})}</div>
-        <button class="btn-add" onclick="openCheckinForm('${date}')">＋ check-in</button>
+        <button class="btn-add-checkin" onclick="openCheckinForm('${date}')">＋ check-in</button>
       </div>
       <div class="checkins-list">${sorted.map(c=>{
         const mood=getOpt(MOOD,c.mood),agit=getOpt(AGITATION,c.agitation),en=getOpt(ENERGY,c.energy);
         const mt=MEDS.filter(m=>c.meds[m.key]?.taken===true).map(m=>m.label).join(", ");
         const hasOpt=c.sleep_quality||mt||c.food!=null||c.exercised!=null||c.notes;
-        const cJson=JSON.stringify(c).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
         return `<div class="checkin-card">
           <div class="checkin-top">
             <div class="checkin-time">${c.time}</div>
-            <div class="checkin-btns">
-              <button class="btn-xs" onclick='openCheckinForm("${date}",JSON.parse(decodeURIComponent("${encodeURIComponent(JSON.stringify(c)}}")))'>editar</button>
+            <div class="checkin-actions-row">
+              <button class="btn-xs" onclick='openCheckinForm("${date}",${JSON.stringify(c).replace(/"/g,"&quot;").replace(/'/g,"&#39;")})'>editar</button>
               <button class="btn-xs" style="color:var(--red)" onclick="deleteCheckin('${date}',${c.id})">apagar</button>
             </div>
           </div>
@@ -585,7 +569,7 @@ function renderDayView(date){
             ${agit?`<span class="core-chip agit">${agit.e} ${agit.l}</span>`:""}
             ${en?`<span class="core-chip energy">${en.e} ${en.l}</span>`:""}
           </div>
-          ${hasOpt?`<div class="checkin-opts">
+          ${hasOpt?`<div class="checkin-optional">
             ${c.sleep_quality?`<span class="opt-chip">${sm[c.sleep_quality]}${c.sleep_hours?` · ${c.sleep_hours}h`:""}</span>`:""}
             ${mt?`<span class="opt-chip">💊 ${mt}</span>`:""}
             ${c.food!=null?`<span class="opt-chip">${getOpt(FOOD,c.food)?.e} ${getOpt(FOOD,c.food)?.l}</span>`:""}
@@ -636,14 +620,13 @@ function renderCharts(){
   </div>`;
 }
 
-// ── Navigation ─────────────────────────────────────────────────────────────────
 function showPage(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
   document.getElementById("page"+name[0].toUpperCase()+name.slice(1)).classList.add("active");
   const nb=document.getElementById("nav"+name[0].toUpperCase()+name.slice(1));
   if(nb) nb.classList.add("active");
-  // Hide nav on checkin so button is never covered
+  // Esconde nav no checkin para o botão nunca ficar coberto
   document.getElementById("mainNav").classList.toggle("hidden", name==="checkin");
   if(name==="history") renderHistory();
   if(name==="charts")  renderCharts();
