@@ -259,6 +259,7 @@ body{max-width:480px;margin:0 auto;padding-bottom:90px}
 <div class="page" id="pageCharts">
   <div class="page-header">
     <div class="page-title">Análises</div>
+    <button class="btn-add-checkin" onclick="exportCSV()">⬇ CSV</button>
   </div>
   <div id="chartsContent"></div>
 </div>
@@ -585,12 +586,31 @@ function renderCharts(){
   const allDays=Object.values(days).sort((a,b)=>a.date.localeCompare(b.date));
   const el=document.getElementById("chartsContent");
   if(allDays.length<2){ el.innerHTML='<div class="empty-state"><div class="empty-big">📊</div><p>Registre pelo menos 2 dias<br>para ver os gráficos.</p></div>'; return; }
+
   const allMoods=allDays.flatMap(d=>d.checkins.map(c=>c.mood).filter(Boolean));
   const avgMG=allMoods.length?(allMoods.reduce((a,b)=>a+b,0)/allMoods.length).toFixed(1):"–";
+
   const medsBar=MEDS.map(med=>{
     const all=allDays.flatMap(d=>d.checkins.filter(c=>c.meds[med.key]?.taken!=null));
     return{...med,rate:all.length?Math.round((all.filter(c=>c.meds[med.key]?.taken===true).length/all.length)*100):0};
   });
+
+  // Sleep analysis
+  const allCheckins=allDays.flatMap(d=>d.checkins);
+  const withSleep=allCheckins.filter(c=>c.sleep_quality);
+  const sleepCounts={noite_inteira:0,acordou_voltou:0,acordou_ficou:0};
+  withSleep.forEach(c=>sleepCounts[c.sleep_quality]++);
+  const total=withSleep.length||1;
+  const hoursArr=allCheckins.map(c=>parseFloat(c.sleep_hours)).filter(h=>!isNaN(h)&&h>0);
+  const avgHours=hoursArr.length?(hoursArr.reduce((a,b)=>a+b,0)/hoursArr.length).toFixed(1):"–";
+  const wakeArr=allCheckins.map(c=>c.sleep_wake_time).filter(t=>t&&t.length===5);
+  const avgWake=(()=>{
+    if(!wakeArr.length) return "–";
+    const mins=wakeArr.map(t=>{ const[h,m]=t.split(":"); return parseInt(h)*60+parseInt(m); });
+    const avg=Math.round(mins.reduce((a,b)=>a+b,0)/mins.length);
+    return String(Math.floor(avg/60)).padStart(2,"0")+":"+String(avg%60).padStart(2,"0");
+  })();
+
   el.innerHTML=`<div class="charts-area">
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-value" style="color:#c084fc">${avgMG}</div><div class="stat-label">humor médio</div></div>
@@ -598,6 +618,32 @@ function renderCharts(){
       <div class="stat-card"><div class="stat-value" style="color:#34d399">${allDays.filter(d=>d.checkins.some(c=>c.exercised===true)).length}</div><div class="stat-label">dias c/ exercício</div></div>
       <div class="stat-card"><div class="stat-value" style="color:#fb923c">${allDays.length}</div><div class="stat-label">dias registrados</div></div>
     </div>
+
+    <div class="chart-card">
+      <div class="chart-title">🌙 Sono</div>
+      <div class="stats-grid" style="margin-bottom:14px">
+        <div class="stat-card"><div class="stat-value" style="color:#a78bfa;font-size:24px">${avgHours}h</div><div class="stat-label">média dormida</div></div>
+        <div class="stat-card"><div class="stat-value" style="color:#a78bfa;font-size:24px">${avgWake}</div><div class="stat-label">horário médio acorda</div></div>
+      </div>
+      ${withSleep.length>0?`<div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">🌙 Inteira</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.round(sleepCounts.noite_inteira/total*100)}%;background:#a78bfa"></div></div>
+          <div class="bar-pct">${Math.round(sleepCounts.noite_inteira/total*100)}%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">🌗 Voltei</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.round(sleepCounts.acordou_voltou/total*100)}%;background:#60a5fa"></div></div>
+          <div class="bar-pct">${Math.round(sleepCounts.acordou_voltou/total*100)}%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">☀️ Fiquei</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.round(sleepCounts.acordou_ficou/total*100)}%;background:#fb923c"></div></div>
+          <div class="bar-pct">${Math.round(sleepCounts.acordou_ficou/total*100)}%</div>
+        </div>
+      </div>`:"<div style='font-size:12px;color:var(--muted);text-align:center;padding:8px'>Registre sono nos check-ins para ver aqui</div>"}
+    </div>
+
     <div class="chart-card">
       <div class="chart-title">Adesão por remédio</div>
       <div class="bar-chart">${medsBar.map(m=>`
@@ -608,6 +654,7 @@ function renderCharts(){
         </div>`).join("")}
       </div>
     </div>
+
     <div class="chart-card">
       <div class="chart-title">Humor — últimas 2 semanas</div>
       <div class="mood-timeline">${allDays.slice(-14).map(d=>`
@@ -618,6 +665,46 @@ function renderCharts(){
       </div>
     </div>
   </div>`;
+}
+
+function exportCSV(){
+  const allDays=Object.values(days).sort((a,b)=>a.date.localeCompare(b.date));
+  if(!allDays.length){ showToast("Nenhum dado para exportar","#f87171"); return; }
+
+  const moodLabel={1:"Baixo",5:"Neutro",9:"Bem"};
+  const agitLabel={1:"Calma",5:"Inquieta",9:"Agitada"};
+  const energyLabel={1:"Baixa",5:"Média",9:"Alta"};
+  const focusLabel={1:"Baixo",5:"Médio",9:"Alto"};
+  const foodLabel={1:"Ruim",5:"OK",9:"Boa"};
+  const sleepLabel={noite_inteira:"Noite inteira",acordou_voltou:"Acordei voltei",acordou_ficou:"Acordei fiquei"};
+
+  const headers=["data","hora","humor","agitacao","energia","sono","acordou_as","horas_dormidas","alimentacao","exercicio","foco","notas",...MEDS.map(m=>m.label.toLowerCase()),...MEDS.map(m=>m.label.toLowerCase()+"_hora")];
+
+  const rows=allDays.flatMap(d=>
+    d.checkins.map(c=>[
+      d.date, c.time,
+      moodLabel[c.mood]||"",
+      agitLabel[c.agitation]||"",
+      energyLabel[c.energy]||"",
+      sleepLabel[c.sleep_quality]||"",
+      c.sleep_wake_time||"",
+      c.sleep_hours||"",
+      foodLabel[c.food]||"",
+      c.exercised===true?"Sim":c.exercised===false?"Não":"",
+      focusLabel[c.focus]||"",
+      (c.notes||"").replace(/"/g,"'"),
+      ...MEDS.map(m=>c.meds[m.key]?.taken===true?"Sim":c.meds[m.key]?.taken===false?"Não":""),
+      ...MEDS.map(m=>c.meds[m.key]?.time||""),
+    ])
+  );
+
+  const csv=[headers,...rows].map(r=>r.map(v=>`"${v}"`).join(",")).join("\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download="neurolog_"+new Date().toISOString().split("T")[0]+".csv";
+  a.click(); URL.revokeObjectURL(url);
+  showToast("✓ CSV exportado!","#34d399");
 }
 
 function showPage(name){
