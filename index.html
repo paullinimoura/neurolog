@@ -377,16 +377,23 @@ function jsonp(url, timeout=12000){
 
 async function loadFromDrive(){
   try{
-    const j = await jsonp(SCRIPT_URL+"?action=load&t="+Date.now());
-    return j && j.status==="ok" ? j.data : null;
+    const j1 = await jsonp(SCRIPT_URL+"?action=load_days&t="+Date.now());
+    const j2 = await jsonp(SCRIPT_URL+"?action=load_meds&t="+(Date.now()+1));
+    const result = {};
+    if(j1 && j1.status==="ok") result.days = j1.data;
+    if(j2 && j2.status==="ok") result.meds = j2.data;
+    return (result.days !== undefined) ? result : null;
   }catch(e){ console.error("load:",e); return null; }
 }
 
-async function saveToDrive(d){
+async function saveToDrive(payload){
   try{
-    const encoded = encodeURIComponent(JSON.stringify(d));
-    const j = await jsonp(SCRIPT_URL+"?action=save&d="+encoded+"&t="+Date.now());
-    return !!(j && j.status==="ok");
+    // Split into two smaller calls: days and meds separately
+    const daysEncoded = encodeURIComponent(JSON.stringify({days: payload.days || payload}));
+    const medsEncoded = encodeURIComponent(JSON.stringify({meds: payload.meds || MEDS}));
+    const j1 = await jsonp(SCRIPT_URL+"?action=save_days&d="+daysEncoded+"&t="+Date.now());
+    const j2 = await jsonp(SCRIPT_URL+"?action=save_meds&d="+medsEncoded+"&t="+Date.now());
+    return !!(j1 && j1.status==="ok") && !!(j2 && j2.status==="ok");
   }catch(e){ console.error("save:",e); return false; }
 }
 
