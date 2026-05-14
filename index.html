@@ -326,7 +326,7 @@ function saveMedsLocal(){ try{ localStorage.setItem(MEDS_KEY, JSON.stringify(MED
 function saveMeds(){ 
   saveMedsLocal();
   setStatus("saving");
-  saveToDrive({days, meds: MEDS}).then(ok=>{
+  saveToDrive({days, meds: MEDS}, null).then(ok=>{
     setStatus(ok?"synced":"local");
     if(ok) showToast("☁ Salvo no Drive","#60a5fa");
   });
@@ -386,25 +386,27 @@ async function loadFromDrive(){
   }catch(e){ console.error("load:",e); return null; }
 }
 
-async function postToDrive(action, data){
-  const r = await fetch(SCRIPT_URL, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain" },
-    body: JSON.stringify({ action, data })
-  });
-  const j = await r.json();
-  return j && j.status === "ok";
-}
-
-async function saveToDrive(payload){
+async function saveToDrive(payload, changedDate){
   try{
     const daysData = payload.days || payload;
     const medsData = payload.meds || MEDS;
-    const [ok1, ok2] = await Promise.all([
-      postToDrive("save_days", daysData),
-      postToDrive("save_meds", medsData),
+
+    // Save only the changed day (small URL) + meds separately
+    const dayToSave = changedDate ? { date: changedDate, day: daysData[changedDate] } : null;
+    const savePayload = dayToSave
+      ? { action: "upsert_day", date: dayToSave.date, day: dayToSave.day }
+      : { action: "save_days", days: daysData };
+
+    const encoded = encodeURIComponent(JSON.stringify(savePayload));
+    const medsEncoded = encodeURIComponent(JSON.stringify({ action: "save_meds", meds: medsData }));
+
+    console.log("Save URL length:", (SCRIPT_URL + "?d=" + encoded).length);
+
+    const [j1, j2] = await Promise.all([
+      jsonp(SCRIPT_URL + "?d=" + encoded + "&t=" + Date.now()),
+      jsonp(SCRIPT_URL + "?d=" + medsEncoded + "&t=" + (Date.now()+1)),
     ]);
-    return ok1 && ok2;
+    return !!(j1 && j1.status === "ok") && !!(j2 && j2.status === "ok");
   }catch(e){ console.error("save error:",e); return false; }
 }
 
@@ -590,7 +592,8 @@ async function saveCheckin(){
   renderHome();
   showPage("home");
   setStatus("saving");
-  saveToDrive({days, meds: MEDS}).then(ok=>{
+  const _changedDate = editingDate || todayKey();
+  saveToDrive({days, meds: MEDS}, _changedDate).then(ok=>{
     setStatus(ok?"synced":"local");
     if(ok) showToast("☁ Salvo no Drive","#60a5fa");
     else   showToast("⚠ Salvo localmente — Drive indisponível","#facc15");
@@ -605,7 +608,7 @@ async function deleteCheckin(date,id){
   else days={...days,[date]:{...day,checkins}};
   saveCache(days); renderHistory();
   setStatus("saving");
-  saveToDrive({days, meds: MEDS}).then(ok=>{
+  saveToDrive({days, meds: MEDS}, null).then(ok=>{
     setStatus(ok?"synced":"local");
   });
 }
