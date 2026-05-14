@@ -677,27 +677,32 @@ function renderCharts(){
   const el=document.getElementById("chartsContent");
   if(allDays.length<2){ el.innerHTML='<div class="empty-state"><div class="empty-big">📊</div><p>Registre pelo menos 2 dias<br>para ver os gráficos.</p></div>'; return; }
 
-  const allMoods=allDays.flatMap(d=>d.checkins.map(c=>c.mood).filter(Boolean));
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 14);
+  const cutoffKey = cutoff.toISOString().split("T")[0];
+  const last15 = allDays.filter(d => d.date >= cutoffKey);
+  const allMoods=last15.flatMap(d=>d.checkins.map(c=>c.mood).filter(Boolean));
   const avgMG=allMoods.length?(allMoods.reduce((a,b)=>a+b,0)/allMoods.length).toFixed(1):"–";
 
-  // Adesão: por remédio, conta dias em que a seção de meds foi aberta (qualquer med marcado)
-  // Um dia "registrado" = pelo menos um check-in naquele dia tinha algum med marcado com ✓
-  // Taxa = dias com ✓ neste remédio ÷ dias com ✓ em qualquer remédio
-  const daysWithAnyMed = allDays.filter(d =>
-    d.checkins.some(c => c.meds && Object.values(c.meds).some(m => m.taken === true))
-  );
+  // Adesão por remédio:
+  // - Tomou = tem ✓ em qualquer check-in do dia
+  // - Não tomou = tem ✗ explícito, OU dia já passou sem nenhum ✓
+  // - Ignorar = é hoje (dia ainda em aberto)
+  const today = new Date().toISOString().split("T")[0];
+  const pastDays = allDays.filter(d => d.date < today && d.date >= cutoffKey);
   const medsBar = activeMeds().map(med => {
-    const daysTaken = daysWithAnyMed.filter(d =>
+    const relevantDays = pastDays.filter(d => d.checkins.length > 0);
+    const daysTaken = relevantDays.filter(d =>
       d.checkins.some(c => c.meds?.[med.key]?.taken === true)
     );
-    const rate = daysWithAnyMed.length
-      ? Math.round((daysTaken.length / daysWithAnyMed.length) * 100)
+    const rate = relevantDays.length
+      ? Math.round((daysTaken.length / relevantDays.length) * 100)
       : null;
-    return { ...med, rate, total: daysWithAnyMed.length };
+    return { ...med, rate, daysWithData: relevantDays.length };
   });
+  const daysWithAnyMed = pastDays.filter(d => d.checkins.length > 0);
 
   // Sleep analysis
-  const allCheckins=allDays.flatMap(d=>d.checkins);
+  const allCheckins=last15.flatMap(d=>d.checkins);
   const withSleep=allCheckins.filter(c=>c.sleep_quality);
   const sleepCounts={noite_inteira:0,acordou_voltou:0,acordou_ficou:0};
   withSleep.forEach(c=>sleepCounts[c.sleep_quality]++);
@@ -715,9 +720,9 @@ function renderCharts(){
   el.innerHTML=`<div class="charts-area">
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-value" style="color:#c084fc">${avgMG}</div><div class="stat-label">humor médio</div></div>
-      <div class="stat-card"><div class="stat-value" style="color:#60a5fa">${allDays.reduce((s,d)=>s+d.checkins.length,0)}</div><div class="stat-label">check-ins</div></div>
-      <div class="stat-card"><div class="stat-value" style="color:#34d399">${allDays.filter(d=>d.checkins.some(c=>c.exercised===true)).length}</div><div class="stat-label">dias c/ exercício</div></div>
-      <div class="stat-card"><div class="stat-value" style="color:#fb923c">${allDays.length}</div><div class="stat-label">dias registrados</div></div>
+      <div class="stat-card"><div class="stat-value" style="color:#60a5fa">${last15.reduce((s,d)=>s+d.checkins.length,0)}</div><div class="stat-label">check-ins (15d)</div></div>
+      <div class="stat-card"><div class="stat-value" style="color:#34d399">${last15.filter(d=>d.checkins.some(c=>c.exercised===true)).length}</div><div class="stat-label">dias c/ exercício</div></div>
+      <div class="stat-card"><div class="stat-value" style="color:#fb923c">${last15.length}</div><div class="stat-label">dias registrados</div></div>
     </div>
 
     <div class="chart-card">
@@ -753,13 +758,13 @@ function renderCharts(){
           <div class="bar-track"><div class="bar-fill" style="width:${m.rate??0}%;background:${m.color}"></div></div>
           <div class="bar-pct">${m.rate??0}%</div>
         </div>`).join("")}
-        <div style="font-size:10px;color:var(--muted);margin-top:8px">Baseado em ${daysWithAnyMed.length} dia${daysWithAnyMed.length>1?"s":""} com medicação registrada</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:8px">Dias sem nenhum registro (✓ ou ✗) são ignorados</div>
       </div>`:"<div style='font-size:12px;color:var(--muted);text-align:center;padding:8px'>Registre medicações nos check-ins para ver aqui</div>"}
     </div>
 
     <div class="chart-card">
       <div class="chart-title">Humor — últimas 2 semanas</div>
-      <div class="mood-timeline">${allDays.slice(-14).map(d=>`
+      <div class="mood-timeline">${last15.map(d=>`
         <div class="timeline-row">
           <div class="tl-date">${new Date(d.date+"T12:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</div>
           <div class="tl-dots">${d.checkins.map(c=>`<span style="font-size:16px">${getOpt(MOOD,c.mood)?.e||"·"}</span>`).join("")}</div>
