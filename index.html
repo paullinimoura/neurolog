@@ -388,13 +388,16 @@ async function loadFromDrive(){
 
 async function saveToDrive(payload){
   try{
-    // Split into two smaller calls: days and meds separately
     const daysEncoded = encodeURIComponent(JSON.stringify({days: payload.days || payload}));
     const medsEncoded = encodeURIComponent(JSON.stringify({meds: payload.meds || MEDS}));
+    console.log("Saving days, URL length:", (SCRIPT_URL+"?action=save_days&d="+daysEncoded).length);
     const j1 = await jsonp(SCRIPT_URL+"?action=save_days&d="+daysEncoded+"&t="+Date.now());
+    console.log("Days save result:", JSON.stringify(j1));
+    console.log("Saving meds, URL length:", (SCRIPT_URL+"?action=save_meds&d="+medsEncoded).length);
     const j2 = await jsonp(SCRIPT_URL+"?action=save_meds&d="+medsEncoded+"&t="+Date.now());
+    console.log("Meds save result:", JSON.stringify(j2));
     return !!(j1 && j1.status==="ok") && !!(j2 && j2.status==="ok");
-  }catch(e){ console.error("save:",e); return false; }
+  }catch(e){ console.error("save error:",e); return false; }
 }
 
 function setStatus(s){
