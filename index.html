@@ -386,17 +386,25 @@ async function loadFromDrive(){
   }catch(e){ console.error("load:",e); return null; }
 }
 
+async function postToDrive(action, data){
+  const r = await fetch(SCRIPT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify({ action, data })
+  });
+  const j = await r.json();
+  return j && j.status === "ok";
+}
+
 async function saveToDrive(payload){
   try{
-    const daysEncoded = encodeURIComponent(JSON.stringify({days: payload.days || payload}));
-    const medsEncoded = encodeURIComponent(JSON.stringify({meds: payload.meds || MEDS}));
-    console.log("Saving days, URL length:", (SCRIPT_URL+"?action=save_days&d="+daysEncoded).length);
-    const j1 = await jsonp(SCRIPT_URL+"?action=save_days&d="+daysEncoded+"&t="+Date.now());
-    console.log("Days save result:", JSON.stringify(j1));
-    console.log("Saving meds, URL length:", (SCRIPT_URL+"?action=save_meds&d="+medsEncoded).length);
-    const j2 = await jsonp(SCRIPT_URL+"?action=save_meds&d="+medsEncoded+"&t="+Date.now());
-    console.log("Meds save result:", JSON.stringify(j2));
-    return !!(j1 && j1.status==="ok") && !!(j2 && j2.status==="ok");
+    const daysData = payload.days || payload;
+    const medsData = payload.meds || MEDS;
+    const [ok1, ok2] = await Promise.all([
+      postToDrive("save_days", daysData),
+      postToDrive("save_meds", medsData),
+    ]);
+    return ok1 && ok2;
   }catch(e){ console.error("save error:",e); return false; }
 }
 
